@@ -1,48 +1,9 @@
-
-/*
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import './stylesheet/styles.css';
-import { TodoHome } from './components/Adapted/TodoHome';
-import { AddTodo } from './components/Adapted/AddTodo';
-import { AddContact } from './components/Adapted/AddContact';
-import { ContactList } from './components/Adapted/ContactList';
-import { EditTodo } from './components/Adapted/EditTodo';
-import { TodoALLList } from './components/Adapted/TodoALLList';
-import { TodoActiveList } from './components/Adapted/TodoActiveList';
-import { TodoCompletedList } from './components/Adapted/TodoCompletedList';
-import { TodoGlobalProvider } from './context/TodoGlobalState';
-
-
-const TodoApp = () => { 
-  return (        
-    <TodoGlobalProvider>
-      <Switch>
-        <Route path="/" component={TodoHome} exact />
-        <Route path="/add" component={AddTodo} exact />  
-        <Route path="/edit/:id" component={EditTodo} exact />  
-        <Route path="/addcontact" component={AddContact} exact />  
-        <Route path="/viewalltodos" component={TodoALLList} exact /> 
-        <Route path="/viewcompletedtodos" component={TodoCompletedList} exact /> 
-        <Route path="/viewactivetodos" component={TodoActiveList} exact /> 
-        <Route path="/showcontacts" component={ContactList} exact />                         
-      </Switch>
-    </TodoGlobalProvider>    
- 
-  );
-}
-
-export default TodoApp;
-
-*/
-
-
-
 import React, { Component } from 'react';
 import Login from './login';
 import Chat from './chat';
 import client from './feathers';
 import ShowTabs from './components/ShowTabs';
+import ShowTabs2 from './components/ShowTabs2';
 import SignUpForm from './components/SignUpForm'
 import NavBar2 from './components/NavBar2'
 
@@ -52,13 +13,16 @@ class Application extends Component {
 
     this.state = {
 		login: null,
-		questions: [],
+    questions: [],
+    categories: [{id:1, value:'Sports'},{id:2, value:'Technology'}, {id:3, value:'Politics'}],
+    answers: [],
 		users: [],
 	};
   }
 
   componentDidMount() {
     const questions = client.service('questions');
+    const answers = client.service('answers');
     const users = client.service('users');
 
     // Try to authenticate with the JWT stored in localStorage
@@ -74,14 +38,21 @@ class Application extends Component {
             $limit: 25
           }
         }),
+        answers.find({
+          query: {
+            $sort: { createdAt: -1 },
+            $limit: 25
+          }
+        }),
         users.find()
-      ]).then( ([ questionPage, userPage ]) => {
+      ]).then( ([ questionPage, answerPage, userPage ]) => {
         // We want the latest messages but in the reversed order
-        const questions = questionPage.data.reverse();
+        const questions = questionPage.data.reverse();  
+        const answers = answerPage.data.reverse(); 
         const users = userPage.data;
 
         // Once both return, update the state
-        this.setState({ login, questions, users });
+        this.setState({ login, questions, answers, users });
       });
     });
 
@@ -89,12 +60,18 @@ class Application extends Component {
     client.on('logout', () => this.setState({
       login: null,
       questions: null,
+      answers: null,
       users: null
     }));
 
     // Add new messages to the message list
     questions.on('created', question => this.setState({
       questions: [...this.state.questions, question]
+    }));
+
+    // Add new answers to the message list
+    answers.on('created', answer => this.setState({
+      answers: [...this.state.answers, answer]
     }));
 
     // Add new users to the user list
@@ -109,15 +86,15 @@ class Application extends Component {
         <h1>Loading...</h1>
       </main>;
     } else if(this.state.login) {
-      return <Chat questions={this.state.questions} users={this.state.users} /> 
+      return <Chat questions={this.state.questions} categories={this.state.categories} answers={this.state.answers} users={this.state.users} /> 
       
     }
 
     return (
       <div> 
-        <NavBar2/>
-        <ShowTabs/>
+        <NavBar2/>        
         <Login />
+        <ShowTabs2/>
       </div>
     )
   }

@@ -9,8 +9,7 @@ module.exports = function (app) {
   const schema = new mongooseClient.Schema({
     email : { type: mongooseClient.SchemaTypes.Email, unique: true, required: [true, 'Email is required'], },	
     password: { type: String },
-    avatar : {type: String, required: false, },  
-  
+    avatar : {type: String, required: false, },    
   }, {
     timestamps: true
   });

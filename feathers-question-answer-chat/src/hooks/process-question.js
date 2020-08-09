@@ -12,22 +12,24 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if(!data.text) {
       throw new Error('A question must have a text');
     }
-
+    if(!data.category) {
+      throw new Error('A question must have a category');
+    }
     // The logged in user
     const { user } = context.params;
     // The actual question text
     // Make sure that question text  are no longer than 400 characters
     const text = data.text.substring(0, 400);
-
+    const category = data.category.substring(0, 400);
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
       text,
+      category,
       // Set the user id
       userId: user._id,
       // Add the current date
       createdAt: new Date().getTime()
     };
-
     return context;
   };
 };

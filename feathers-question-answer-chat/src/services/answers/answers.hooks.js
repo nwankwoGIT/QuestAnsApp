@@ -1,9 +1,7 @@
+/* eslint-disable linebreak-style */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-
 const processAnswer = require('../../hooks/process-answer');
-
 const populateQuestion = require('../../hooks/populate-question');
-
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],

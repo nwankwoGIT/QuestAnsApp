@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 // questions-model.js - A mongoose model
 // 
 // See http://mongoosejs.com/docs/models.html
@@ -8,8 +9,9 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const schema = new Schema({
     text: { type: String, required: true },
-	userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},  
-	answers: [{ type: String, required: true }]
+    category: { type: String, required: true },
+	  userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},  
+	  answers: [{ type: String, required: true }]
   }, {
     timestamps: true
   });
@@ -19,6 +21,5 @@ module.exports = function (app) {
   if (mongooseClient.modelNames().includes(modelName)) {
     mongooseClient.deleteModel(modelName);
   }
-  return mongooseClient.model(modelName, schema);
-  
+  return mongooseClient.model(modelName, schema);  
 };

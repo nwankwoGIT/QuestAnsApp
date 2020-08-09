@@ -2,21 +2,41 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import client from './feathers';
 import NavBar2 from './components/NavBar2'
-//import GoogleHeader from './components/GoogleHeader';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import 'semantic-ui-css/semantic.min.css'
+import QuestionCardBlock from './components/QuestionCardBlock'
+import AnswerCardBlock from './components/AnswerCardBlock'
+import ModalAnswerBox from './components/ModalAnswerBox'
 
 class Chat extends Component {
   sendMessage(ev) {
     const input = ev.target.querySelector('[name="text"]');
+    const input2 = ev.target.querySelector('[name="category"]');
     const text = input.value;
+    const category = input2.value;
 
-    if(text) {
-      client.service('questions').create({ text }).then(() => {
+    if((text) && (category)){
+      client.service('questions').create({ text, category }).then(() => {
         input.value = '';
+
       });
     }
     ev.preventDefault();
   }
+
+  sendAnswerMessage(ev) {    
+    const answerinput = ev.target.querySelector('[name="answertext"]');
+    const questionid = ev.target.querySelector('[name="questionId"]');
+    const text = answerinput.value;
+    const questionId = questionid.value;
+
+    if((text) && (questionId)){
+      client.service('answers').create({ text, questionId }).then(() => {
+      answerinput.value = '';      
+      });
+    }
+    ev.preventDefault();
+  }
+
 
   scrollToBottom() {
     const chat = this.chat;
@@ -26,12 +46,14 @@ class Chat extends Component {
   componentDidMount() {
     this.scrollToBottom = this.scrollToBottom.bind(this);
     client.service('questions').on('created', this.scrollToBottom);
+    client.service('answers').on('created', this.scrollToBottom);
     this.scrollToBottom();
   }
 
   componentWillUnmount() {
     // Clean up listeners
     client.service('questions').removeListener('created', this.scrollToBottom);	
+    client.service('answers').removeListener('created', this.scrollToBottom);	
   }
 
 // various query API's
@@ -61,10 +83,10 @@ class Chat extends Component {
        return doc;
     })  
   }
-
+  
 // ================================================
   render() {
-    const { users, questions } = this.props;
+    const { users, questions, categories, answers } = this.props;
 	// specify your styles here 
 	const styles = {
 		makeitbold: {
@@ -80,7 +102,7 @@ class Chat extends Component {
        <span className="title" style={styles.makeitbold}>Questions And Answers App</span>
         </div>
       </header>
-      <NavBar2/>
+      <NavBar2/>    
       <div className="flex flex-row flex-1 clear">
         <aside className="sidebar col col-3 flex flex-column flex-space-between">
           <header className="flex flex-row flex-center">
@@ -105,10 +127,7 @@ class Chat extends Component {
         </aside>
 
 
-
-
         <div className="flex flex-column col col-9">
-
         <header className="title-bar flex flex-row flex-center">
             <div className="title-wrapper block center-element">
         {/*<img className="logo" src="http://feathersjs.com/img/feathers-logo-wide.png"
@@ -116,68 +135,67 @@ class Chat extends Component {
           <span className="title" style={styles.makeitbold}>List Of Questions Posed</span>
             </div>
           </header>
-
-
-
           <main className="chat flex flex-column flex-1 clear" ref={main => { this.chat = main; }}>
-            {questions.map(question => <div key={question._id} className="question flex flex-row">
-              <img src={question.user.avatar} alt={question.user.email} className="avatar" />
-              <div className="question-wrapper">
-                <p className="question-header">
-                  <span className="username font-600">{question.user.email}</span>
-                  <span className="sent-date font-300">{moment(question.createdAt).format('MMM Do, hh:mm:ss')}</span>
-                </p>
-                <p className="question-content font-300">{question.text}</p>
+            {questions.map(question => <div key={question._id} className="question flex flex-row">              
+              <div className="question-wrapper">                        
+               <QuestionCardBlock avatar={question.user.avatar} 
+                                  question={question.text} 
+                                  questionId={question._id} 
+                                  category={question.category} 
+                                  count={question.answers.length}                                
+                                  email={question.user.email} 
+
+                                  date={moment(question.createdAt).format('MMM Do, hh:mm:ss')} />
+                            
               </div>
-            </div>)}
-          </main>
-          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">
-            <input type="text" name="text" className="flex flex-1" />
-            <button className="button-primary" type="submit">Send</button>            
+              <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-response-message">          
+               <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readonly />
+               <input type="text" name="answertext" placeholder="Type in your answer here"  className="flex flex-1" />
+               <button className="button-primary" type="submit">Submit Answer</button>            
+              </form>  
+            </div> )}               
+          </main>        
+          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">    
+          <select name="category" className="flex flex-1" id="category">
+           {categories.map(category =>
+             <option key={category.id} value={category.value}>{category.value}</option>
+           )} 
+          </select>            
+          <input type="text" name="text" className="flex flex-1" />
+            <button className="button-primary" type="submit">Submit Question</button>            
           </form>       
         </div>
-
-
-
-
-
         <div className="flex flex-column col col-9">
-
-
         <header className="title-bar flex flex-row flex-center">
-            <div className="title-wrapper block center-element">
-        {/*<img className="logo" src="http://feathersjs.com/img/feathers-logo-wide.png"
-        alt="Feathers Logo" /> */}
+          <div className="title-wrapper block center-element">        
           <span className="title" style={styles.makeitbold}>List Of Answers Provided</span>
             </div>
-          </header>
-
-
-          <main className="chat flex flex-column flex-1 clear" ref={main => { this.chat = main; }}>            
-            {questions.map(question => <div key={question._id} className="question flex flex-row">
-              <img src={question.user.avatar} alt={question.user.email} className="avatar" />
-              <div className="question-wrapper">
-                <p className="question-header">
-                  <span className="username font-600">{question.user.email}</span>
-                  <span className="sent-date font-300">{moment(question.createdAt).format('MMM Do, hh:mm:ss')}</span>
-                </p>
-                <p className="question-content font-300">{question.text}</p>
+          </header>                            
+            <main className="chat flex flex-column flex-1 clear" ref={main => { this.chat = main; }}>
+            {answers.map(answer => <div key={answer._id} className="question flex flex-row">              
+              <div className="question-wrapper">                        
+              <AnswerCardBlock avatar={answer.user.avatar} 
+                                  questionId={answer.questionId} 
+                                  answer={answer.text} 
+                                  email={answer.user.email} 
+                                  date={moment(answer.createdAt).format('MMM Do, hh:mm:ss')} />                                                 
               </div>
-            </div>)}
+            </div>)}                   
           </main>
-          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">
-            <input type="text" name="text" className="flex flex-1" />
-            <button className="button-primary" type="submit">Send</button>            
+          <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-answermessage">
+          <select name="questionid" className="flex flex-1" id="questionid">
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+              <option value="">4</option>
+            </select>
+            <input type="text" name="answertext" className="flex flex-1" />
+            <button className="button-primary" type="submit">Submit Answer</button>            
           </form>       
         </div>
-
-
-
-
-
       </div>
-      <button className="button-primary" type="button" onClick={() => this.getUsers()}>get users</button> 
-    </main>;  
+      <button className="button-primary" type="button" onClick={() => this.getUsers()}>get users</button>     
+    </main>;      
   }
 }
 

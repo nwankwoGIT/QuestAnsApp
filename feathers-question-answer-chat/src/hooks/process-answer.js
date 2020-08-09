@@ -10,16 +10,19 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if(!data.text) {
       throw new Error('An answer must have a text');
     }
-
+    if(!data.questionId) {
+      throw new Error('An answer must be related to a question');
+    }
     // The logged in user
     const { user } = context.params;
     // The actual message text
     // Make sure that messages are no longer than 400 characters
     const text = data.text.substring(0, 400);
-
+    const questionId = data.questionId;
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
       text,
+      questionId,
       // Set the user id
       userId: user._id,
       // Add the current date
