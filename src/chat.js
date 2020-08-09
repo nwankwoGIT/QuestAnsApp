@@ -5,7 +5,6 @@ import NavBar2 from './components/NavBar2'
 import 'semantic-ui-css/semantic.min.css'
 import QuestionCardBlock from './components/QuestionCardBlock'
 import AnswerCardBlock from './components/AnswerCardBlock'
-import ModalAnswerBox from './components/ModalAnswerBox'
 
 class Chat extends Component {
   sendMessage(ev) {
@@ -57,7 +56,6 @@ class Chat extends Component {
   }
 
 // various query API's
-
   getUsers = () => {    
     return client.service('users')
       .find({})
@@ -91,6 +89,10 @@ class Chat extends Component {
 	const styles = {
 		makeitbold: {
 			fontWeight: "bold",
+    },
+    makeitboldRed: {
+      fontWeight: "bold",
+      color:"red"
 		}
   }
   
@@ -120,7 +122,7 @@ class Chat extends Component {
             </li>)}
           </ul>
           <footer className="flex flex-row flex-center">
-            <a href="#" onClick={() => client.logout()} className="button button-primary">
+            <a href="#" onClick={() => client.logout()} className="ui red button">
               Sign Out
             </a>
           </footer>
@@ -149,20 +151,24 @@ class Chat extends Component {
                             
               </div>
               <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-response-message">          
-               <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readonly />
-               <input type="text" name="answertext" placeholder="Type in your answer here"  className="flex flex-1" />
-               <button className="button-primary" type="submit">Submit Answer</button>            
+               <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readOnly />
+               <input type="text" name="answertext" placeholder="Type in your answer here"  className="flex flex-1" />              
+               <button className="ui teal button" type="submit">Submit Answer</button>
               </form>  
-            </div> )}               
-          </main>        
-          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">    
+            </div> )}    
+            
+          </main>
+          <div> 
+          <h4 style={styles.makeitboldRed}>Selection Question Category</h4> 
+          </div>
+          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">             
           <select name="category" className="flex flex-1" id="category">
            {categories.map(category =>
              <option key={category.id} value={category.value}>{category.value}</option>
            )} 
           </select>            
           <input type="text" name="text" className="flex flex-1" />
-            <button className="button-primary" type="submit">Submit Question</button>            
+            <button className="ui teal button" type="submit">Submit Question</button>            
           </form>       
         </div>
         <div className="flex flex-column col col-9">
@@ -181,24 +187,24 @@ class Chat extends Component {
                                   date={moment(answer.createdAt).format('MMM Do, hh:mm:ss')} />                                                 
               </div>
             </div>)}                   
-          </main>
-          <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-answermessage">
-          <select name="questionid" className="flex flex-1" id="questionid">
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-              <option value="">4</option>
-            </select>
-            <input type="text" name="answertext" className="flex flex-1" />
-            <button className="button-primary" type="submit">Submit Answer</button>            
-          </form>       
+          </main>             
         </div>
       </div>
-      <button className="button-primary" type="button" onClick={() => this.getUsers()}>get users</button>     
+      <button className="button-dander" type="button" onClick={() => this.getUsers()}>get users</button>     
     </main>;      
   }
 }
 
 export default Chat;
-
- 
+/*
+<form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-answermessage">
+<select name="questionid" className="flex flex-1" id="questionid">
+    <option value="">1</option>
+    <option value="">2</option>
+    <option value="">3</option>
+    <option value="">4</option>
+  </select>
+  <input type="text" name="answertext" className="flex flex-1" />
+  <button className="button-primary" type="submit">Submit Answer</button>            
+</form>  
+*/ 
