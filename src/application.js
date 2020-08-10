@@ -14,7 +14,13 @@ class Application extends Component {
     this.state = {
 		login: null,
     questions: [],
-    categories: [{id:1, value:'Sports'},{id:2, value:'Technology'}, {id:3, value:'Politics'}],
+    categories: [{id:1, value:'Programming'},
+                 {id:2, value:'Technology'}, 
+                 {id:3, value:'Politics'},
+                 {id:4, value:'Science'},
+                 {id:5, value:'Sports'},
+                 {id:6, value:'Space Exploration'},
+                ],
     answers: [],
 		users: [],
 	};
@@ -83,10 +89,13 @@ class Application extends Component {
   render() {
     if(this.state.login === undefined) {
       return <main className="container text-center">
-        <h1>Loading...</h1>
+        <h1>App is Loading...</h1>
       </main>;
     } else if(this.state.login) {
-      return <Chat questions={this.state.questions} categories={this.state.categories} answers={this.state.answers} users={this.state.users} /> 
+      return <Chat  questions={this.state.questions} 
+                    categories={this.state.categories} 
+                    answers={this.state.answers} 
+                    users={this.state.users} /> 
       
     }
 

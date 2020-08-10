@@ -30,7 +30,8 @@ class Chat extends Component {
 
     if((text) && (questionId)){
       client.service('answers').create({ text, questionId }).then(() => {
-      answerinput.value = '';      
+      answerinput.value = '';  
+      this.updateQuestionAnswerArray(questionId, text);
       });
     }
     ev.preventDefault();
@@ -45,7 +46,7 @@ class Chat extends Component {
   componentDidMount() {
     this.scrollToBottom = this.scrollToBottom.bind(this);
     client.service('questions').on('created', this.scrollToBottom);
-    client.service('answers').on('created', this.scrollToBottom);
+    client.service('answers').on('created', this.scrollToBottom);    
     this.scrollToBottom();
   }
 
@@ -82,6 +83,36 @@ class Chat extends Component {
     })  
   }
   
+  getAnswers = () => {    
+    return client.service('answers')
+      .find({})
+      .then(function(doc) { 
+       console.log(doc);       
+       return doc;
+    })  
+  }
+
+  updateQuestionAnswerArray = async (id, answer) => {
+    const fromDb = await client.service('questions').find({_id: id});    
+    fromDb.data[0].answers.splice(0, 0, answer);    // insert new values at the begining of the array  
+    client.service('questions').patch(id, { "answers": fromDb.data[0].answers});     
+    //console.log(fromDb.data[0].answers);                 
+}
+
+
+//     Remove 1 element at index 1: .splice(1, 1) ; .splice(3, 1) -> remove 1 elem at index 3
+//updateQuestionAnswerArray = async (id, answer) => {
+//  const fromDb = await client.service('questions').find({_id: id})
+                       
+//  console.log("i was here");
+  //fromDb.answers[0].splice(0, 0, answer);  // Remove 0 (zero) elements before index 0, and insert "drum"
+  //fromDb.answers.set(0,'My first answer by paul');  // direct overwrite update 
+  //fromDb.answers.splice(1, 1);  // Remove 1 element at index 1 to correct an error   
+  //fromDb.save();
+ // console.log(fromDb.answers);                                                             
+//}
+
+
 // ================================================
   render() {
     const { users, questions, categories, answers } = this.props;
