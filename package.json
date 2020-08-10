@@ -5,6 +5,7 @@
   "dependencies": {
     "@feathersjs/client": "^3.4.4",
     "@material-ui/core": "^4.11.0",
+    "antd": "^4.5.3",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "feathers-hooks-common": "^5.0.3",
