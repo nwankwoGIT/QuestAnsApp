@@ -13,7 +13,7 @@ return (
   <div>
   <Card>
     <Card.Content>
-    <Card.Header>Question from : {" "} {email}</Card.Header>
+    <Card.Header>Submitted by : {" "} {email}</Card.Header>
         </Card.Content>
         <Card.Content>
           <Feed>

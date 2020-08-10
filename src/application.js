@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Login from './login';
 import Chat from './chat';
 import client from './feathers';
+import SimpleTabs from './components/SimpleTabs';
 import ShowTabs from './components/ShowTabs';
-import ShowTabs2 from './components/ShowTabs2';
 import SignUpForm from './components/SignUpForm'
 import NavBar2 from './components/NavBar2'
 
@@ -101,7 +101,7 @@ class Application extends Component {
 
     return (
       <div>                        
-        <ShowTabs2/>
+        <ShowTabs/>
       </div>
     )
   }

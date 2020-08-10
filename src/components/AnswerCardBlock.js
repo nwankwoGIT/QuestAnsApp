@@ -1,11 +1,10 @@
 import React from 'react'
 import { Card, Feed } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import { now } from 'moment'
 const AnswerCardBlock = ({avatar, answer, questionId, email,date}) => (
   <Card>
     <Card.Content>
-    <Card.Header>Answer from : {" "} {email}</Card.Header>
+    <Card.Header>Submitted by : {" "} {email}</Card.Header>
         </Card.Content>
         <Card.Content>
           <Feed>
