@@ -123,7 +123,9 @@ class Chat extends Component {
     },
     makeitboldRed: {
       fontWeight: "bold",
-      color:"red"
+      fontSize: '18px',
+      color:"teal",
+      paddingLeft: '20px'
 		}
   }
   
@@ -181,18 +183,18 @@ class Chat extends Component {
                                   date={moment(question.createdAt).format('MMM Do, hh:mm:ss')} />
                             
               </div>
-              <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-response-message">          
-               <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readOnly />
-               <input type="text" name="answertext" placeholder="Type in your answer here"  className="flex flex-1" />              
-               <button className="ui teal button" type="submit">Submit Answer</button>
+              <form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-response-message">                      
+               <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readOnly />               
+               <input type="text" name="answertext" placeholder="Type in your answer here"  className="flex flex-1" />                                  
+               <button className="ui teal button" type="submit">Submit Answer</button>               
               </form>  
             </div> )}    
             
           </main>
           <div> 
-          <h4 style={styles.makeitboldRed}>Selection Question Category</h4> 
+          <label style={styles.makeitboldRed}>Select Category:</label> 
           </div>
-          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">             
+          <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">            
           <select name="category" className="flex flex-1" id="category">
            {categories.map(category =>
              <option key={category.id} value={category.value}>{category.value}</option>
@@ -221,7 +223,9 @@ class Chat extends Component {
           </main>             
         </div>
       </div>
-      <button className="button-dander" type="button" onClick={() => this.getUsers()}>get users</button>     
+      <button className="button-dander" type="button" onClick={() => this.getUsers()}>get users</button> 
+      <br/>
+      <hr/>    
     </main>;      
   }
 }

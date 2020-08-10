@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import client from './feathers';
 
-export default class Login extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -31,7 +31,7 @@ export default class Login extends Component {
     return <main className="login container">
       <div className="row">
         <div className="col-12 col-6-tablet push-3-tablet text-center heading">
-          <h1 className="font-100">Log in </h1>
+          <h1 className="font-100">Enter Credentials, SignUp</h1>
           <p>{this.state.error && this.state.error.message}</p>
         </div>
       </div>
@@ -45,10 +45,9 @@ export default class Login extends Component {
             <fieldset>
               <input className="block" type="password" name="password" placeholder="password" onChange={ev => this.updateField('password', ev)} />
             </fieldset>
-
-            <button type="button" className="button button-primary block signup" onClick={() => this.login()}>
-              Log in
-            </button>            
+            <button type="button" className="button button-primary block signup" onClick={() => this.signup()}>
+              Signup
+            </button>
           </form>
         </div>
       </div>

@@ -100,9 +100,7 @@ class Application extends Component {
     }
 
     return (
-      <div> 
-        <NavBar2/>        
-        <Login />
+      <div>                        
         <ShowTabs2/>
       </div>
     )
@@ -110,3 +108,12 @@ class Application extends Component {
 }
 
 export default Application;
+/*
+return (
+  <div> 
+    <NavBar2/>        
+    <Login />
+    <ShowTabs2/>
+  </div>
+)
+*/

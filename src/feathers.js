@@ -6,13 +6,5 @@ client.configure(feathers.socketio(socket));
 client.configure(feathers.authentication({
   storage: window.localStorage
 }));
-
-/*
-client.configure(feathers.socketio(socket));
-client.configure(feathers.hooks());
-client.configure(feathers.authentication({
-    storage: window.localStorage
-  }));
-*/
 export default client;
 
