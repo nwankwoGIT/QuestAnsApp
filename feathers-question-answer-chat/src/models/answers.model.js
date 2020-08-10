@@ -5,10 +5,10 @@
 module.exports = function (app) {
   const modelName = 'answers';
   const mongooseClient = app.get('mongooseClient');
-  const { Schema } = mongooseClient;
+  const { Schema } = mongooseClient; 
   const schema = new Schema({
-    text: { type: String, required: true },
-    questionId: { type: String, required: true },
+    text: { type: String, required: true },    
+    questionId: {type: Schema.Types.ObjectId, ref: 'questions', required: true}, 
     userId: {type: Schema.Types.ObjectId, ref: 'users', required: true}, 
     timeTaken: String
   }, {
@@ -18,16 +18,6 @@ module.exports = function (app) {
   schema.pre('save', function () {
     this.setTimeTaken();
   });
-  schema.post('save', function () {
-    this.updateAnswerArray();
-  });
-
-  schema.methods.updateAnswerArray = function () {
-    // write code here to save the answer text into the answer array of question    
-    const fromDb = app.service('questions').findOne({_id: this.questionId });  
-    fromDb.answers.splice(0, 0, this.answer); 
-    fromDb.save();
-  };
 
   schema.methods.setTimeTaken = function () {
     var answer = this;
@@ -41,6 +31,7 @@ module.exports = function (app) {
     answer.timeTaken = hours + 'h:' + minutes + 'm:' + seconds + 's';
   };
 
+  
   // This is necessary to avoid model compilation errors in watch mode
   // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
   if (mongooseClient.modelNames().includes(modelName)) {

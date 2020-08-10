@@ -30,8 +30,9 @@ class Chat extends Component {
 
     if((text) && (questionId)){
       client.service('answers').create({ text, questionId }).then(() => {
+      this.updateQuestionAnswerArray(questionId, text);  
       answerinput.value = '';  
-      this.updateQuestionAnswerArray(questionId, text);
+      questionid.value = '';      
       });
     }
     ev.preventDefault();
@@ -93,11 +94,24 @@ class Chat extends Component {
   }
 
   updateQuestionAnswerArray = async (id, answer) => {
-    const fromDb = await client.service('questions').find({_id: id});    
-    fromDb.data[0].answers.splice(0, 0, answer);    // insert new values at the begining of the array  
-    client.service('questions').patch(id, { "answers": fromDb.data[0].answers});     
+    const fromDb = await client.service('questions').get({_id: id});    
+    console.log(fromDb._id); 
+    await fromDb.answers.push(answer);    // insert new values at the begining of the array  
+    await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
+     
+
+    //fromDb.data.answers.push(answer);    // insert new values at the end of the array  
+    //await client.service('questions').patch({_id:id},{answers: fromDb.data[0].answers});   
+    
+    //const query = { "question._id": id }
+    //client.service('questions').patch(id, { "question.answers": [...fromDb.data[0].answers, answer] 
+    //}, { query });
     //console.log(fromDb.data[0].answers);                 
 }
+
+
+
+
 
 
 //     Remove 1 element at index 1: .splice(1, 1) ; .splice(3, 1) -> remove 1 elem at index 3

@@ -1,16 +1,14 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-import Login from '../login'
-import SignUp from '../signup'
 import { Divider, Tab } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 const colors = [
-  'teal',
+  'red',
   'orange',
   'yellow',
   'olive',
   'green',
-  'red',
+  'teal',
   'blue',
   'violet',
   'purple',
@@ -21,16 +19,16 @@ const colors = [
 
 const panes = [
   {
-    menuItem: 'Login',
-    render: () => <Tab.Pane attached={false}><Login/></Tab.Pane>,
+    menuItem: 'Tab 1',
+    render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane>,
   },
   {
-    menuItem: 'SignUp',
-    render: () => <Tab.Pane attached={false}><SignUp/></Tab.Pane>,
+    menuItem: 'Tab 2',
+    render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane>,
   },
   {
-    menuItem: 'Other',
-    render: () => <Tab.Pane attached={false}>Tab Content</Tab.Pane>,
+    menuItem: 'Tab 3',
+    render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>,
   },
 ]
 
@@ -44,8 +42,6 @@ class ShowTabs2 extends Component {
 
     return (
       <div>
-        {/*}
-        <h3>Choose Menu Bar Color Preference</h3>
         <select onChange={this.handleColorChange}>
           {_.map(colors, (c) => (
             <option key={c} value={c}>
@@ -53,7 +49,7 @@ class ShowTabs2 extends Component {
             </option>
           ))}
         </select>
-          */}
+
         <Divider hidden />
 
         <Tab
