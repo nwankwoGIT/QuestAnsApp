@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import Login from '../login'
 import SignUp from '../signup'
+import ShowTabs2 from './ShowTabs2'
 import { Divider, Tab } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 const colors = [
@@ -29,8 +30,8 @@ const panes = [
     render: () => <Tab.Pane attached={false}><SignUp/></Tab.Pane>,
   },
   {
-    menuItem: 'Other',
-    render: () => <Tab.Pane attached={false}>Tab Content</Tab.Pane>,
+    menuItem: 'Explore Free Stuff',
+	  render: () => <Tab.Pane attached={false}><ShowTabs2/></Tab.Pane>,
   },
 ]
 
@@ -39,10 +40,9 @@ class ShowTabs extends Component {
   handleColorChange = (e) => this.setState({ color: e.target.value })
   render() {
     const { color } = this.state
-
     return (
       <div>
-        {/*}
+        {/*
         <h3>Choose Menu Bar Color Preference</h3>
         <select onChange={this.handleColorChange}>
           {_.map(colors, (c) => (

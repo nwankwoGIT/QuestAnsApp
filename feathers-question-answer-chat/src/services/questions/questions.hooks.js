@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const processQuestion = require('../../hooks/process-question');
-const populateUser = require('../../hooks/populate-user');
+const populateQuestion = require('../../hooks/populate-question');
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   after: {
-    all: [populateUser()],
+    all: [populateQuestion()],
     find: [],
     get: [],
     create: [],

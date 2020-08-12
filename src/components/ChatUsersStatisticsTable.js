@@ -1,28 +1,27 @@
 import React, { Fragment } from 'react';
 import './table.css';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
- export const ChatStatistics = ({questions, categoryToDisplay}) => {   
+ export const ChatUsersStatistics = ({users}) => {   
    return (
       <Fragment>
        <table className="zebra"> 
           <thead> 
           <tr> 
-              <th>Who posted question)</th> 
-              <th>Question Text</th> 
-              <th>Date posted</th> 
-	          <th>Responses</th> 
+              <th>Users Email)</th> 
+              <th>Users Id</th> 
+              <th>Date joined</th> 
+	          <th>Other</th> 
              {/* <th>Answers</th>   */}            
           </tr> 
          </thead>         
-         {questions.length > 0 ? <Fragment>
+         {users.length > 0 ? <Fragment>
            <tbody>
-          {questions.map((question, index) => ( 
-            (question.category === categoryToDisplay)  &&            
+          {users.map((user, index) => (                        
           		<tr key={index}> 
-            		<td> {question.user.email}</td> 
-            		<td> {question.text}</td> 
-            		<td> {question.createdAt}</td> 
-			        <td> {question.answers.length}</td> 
+            		<td> {user.email}</td> 
+            		<td> {user._id}</td> 
+            		<td> {user.createdAt}</td> 
+			        <td> {user._id}</td> 
             	{/* {question.answers.map((answer,item) => <td key={item}> {answer}<br/></td>)}  */}
           	  </tr>   
            ))}
@@ -32,5 +31,3 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
          </Fragment> 
     )}
     
- 
-
