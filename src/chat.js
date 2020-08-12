@@ -5,18 +5,29 @@ import NavBar2 from './components/NavBar2'
 import 'semantic-ui-css/semantic.min.css'
 import QuestionCardBlock from './components/QuestionCardBlock'
 import AnswerCardBlock from './components/AnswerCardBlock'
+import { Button } from 'semantic-ui-react'
+//import SideBar from './components/SideBar'
+import ModalAnswerBox from './components/ModalAnswerBox'
+
+var categories =  [ {id:1, value:'Programming'},  {id:2, value:'Technology'}, {id:3, value:'Politics'}, {id:4, value:'Science'}, {id:5, value:'Sports'}, {id:6, value:'Space Exploration'},
+          ];
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {	
+    currentCategory: 'Programming',    
+  	};
+  }
   sendMessage(ev) {
     const input = ev.target.querySelector('[name="text"]');
     const input2 = ev.target.querySelector('[name="category"]');
     const text = input.value;
     const category = input2.value;
-
+    this.setState({currentCategory: category});
     if((text) && (category)){
       client.service('questions').create({ text, category }).then(() => {
         input.value = '';
-
       });
     }
     ev.preventDefault();
@@ -84,6 +95,26 @@ class Chat extends Component {
     })  
   }
   
+  getAnswersFromOneQuestion = (questionId) => {    
+    return client.service('questions')
+      .get({_id:questionId})
+      .then(function(doc) { 
+       console.log(doc);       
+       return doc.answers;
+    })  
+  }
+
+
+  // returns the removed recod 
+  removeAnswer = (id) => {    
+    return client.service('answers')
+      .remove({_id:id})
+      .then(function(doc) { 
+       console.log(doc);       
+       return doc;
+    })  
+  }
+
   getAnswers = () => {    
     return client.service('answers')
       .find({})
@@ -96,35 +127,13 @@ class Chat extends Component {
   updateQuestionAnswerArray = async (id, answer) => {
     const fromDb = await client.service('questions').get({_id: id});    
     console.log(fromDb._id); 
-    await fromDb.answers.push(answer);    // insert new values at the begining of the array  
+    await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
     await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
-     
-
-    //fromDb.data.answers.push(answer);    // insert new values at the end of the array  
-    //await client.service('questions').patch({_id:id},{answers: fromDb.data[0].answers});   
-    
-    //const query = { "question._id": id }
-    //client.service('questions').patch(id, { "question.answers": [...fromDb.data[0].answers, answer] 
-    //}, { query });
-    //console.log(fromDb.data[0].answers);                 
+    //  slice syntaxes :
+    // .splice(1, 1); remove 1 element at index 1:
+    // .splice(3, 1) -> remove 1 elem at index 3
+    // .splice(0, 0, answer)  ->  insert answer at the beginning (index 0), but remove nothing ( second 0)                   
 }
-
-
-
-
-
-
-//     Remove 1 element at index 1: .splice(1, 1) ; .splice(3, 1) -> remove 1 elem at index 3
-//updateQuestionAnswerArray = async (id, answer) => {
-//  const fromDb = await client.service('questions').find({_id: id})
-                       
-//  console.log("i was here");
-  //fromDb.answers[0].splice(0, 0, answer);  // Remove 0 (zero) elements before index 0, and insert "drum"
-  //fromDb.answers.set(0,'My first answer by paul');  // direct overwrite update 
-  //fromDb.answers.splice(1, 1);  // Remove 1 element at index 1 to correct an error   
-  //fromDb.save();
- // console.log(fromDb.answers);                                                             
-//}
 
 
 // ================================================
@@ -135,10 +144,16 @@ class Chat extends Component {
 		makeitbold: {
 			fontWeight: "bold",
     },
+    makeitboldTeal: {
+      fontWeight: "bold",
+      color: 'teal',
+      fontSize: '20px'
+    },
     makeitboldRed: {
       fontWeight: "bold",
       fontSize: '18px',
-      color:"teal",
+      color:"white",
+      backgroundColor: 'red',
       paddingLeft: '20px'
 		}
   }
@@ -148,15 +163,16 @@ class Chat extends Component {
         <div className="title-wrapper block center-element">
 		{/*<img className="logo" src="http://feathersjs.com/img/feathers-logo-wide.png"
 		alt="Feathers Logo" /> */}
-       <span className="title" style={styles.makeitbold}>Questions And Answers App</span>
+       <span className="title" style={styles.makeitboldTeal}>Questions And Answers App</span>
         </div>
       </header>
+      <ModalAnswerBox/>
       <NavBar2/>    
       <div className="flex flex-row flex-1 clear">
         <aside className="sidebar col col-3 flex flex-column flex-space-between">
           <header className="flex flex-row flex-center">
             <h4 className="font-300 text-center">
-              <span className="font-600 online-count">{users.length}</span> users
+              <span className="font-600 online-count">{users.length}</span> users are logged in 
             </h4>
           </header>
 
@@ -167,33 +183,32 @@ class Chat extends Component {
                 <span className="absolute username">{user.email}</span>
               </a>
             </li>)}
-          </ul>
+          </ul>   
+          
           <footer className="flex flex-row flex-center">
-            <a href="#" onClick={() => client.logout()} className="ui red button">
+            <a href="#" onClick={() => client.logout()} className="ui green button">
               Sign Out
             </a>
           </footer>
         </aside>
-
 
         <div className="flex flex-column col col-9">
         <header className="title-bar flex flex-row flex-center">
             <div className="title-wrapper block center-element">
         {/*<img className="logo" src="http://feathersjs.com/img/feathers-logo-wide.png"
         alt="Feathers Logo" /> */}
-          <span className="title" style={styles.makeitbold}>List Of Questions Posed</span>
+          <span className="title" style={styles.makeitboldTeal}>Questions Gallery</span>
             </div>
           </header>
           <main className="chat flex flex-column flex-1 clear" ref={main => { this.chat = main; }}>
-            {questions.map(question => <div key={question._id} className="question flex flex-row">              
-              <div className="question-wrapper">                        
+            {questions.map(question =>  <div key={question._id} className="question flex flex-row">              
+              <div className="question-wrapper">                                    
                <QuestionCardBlock avatar={question.user.avatar} 
                                   question={question.text} 
                                   questionId={question._id} 
                                   category={question.category} 
                                   count={question.answers.length}                                
-                                  email={question.user.email} 
-
+                                  email={question.user.email}                                   
                                   date={moment(question.createdAt).format('MMM Do, hh:mm:ss')} />
                             
               </div>
@@ -206,7 +221,7 @@ class Chat extends Component {
             
           </main>
           <div> 
-          <label style={styles.makeitboldRed}>Select Category:</label> 
+          <label style={styles.makeitboldTeal}>Select Category For Question:</label> 
           </div>
           <form onSubmit={this.sendMessage.bind(this)} className="flex flex-row flex-space-between" id="send-message">            
           <select name="category" className="flex flex-1" id="category">
@@ -221,7 +236,7 @@ class Chat extends Component {
         <div className="flex flex-column col col-9">
         <header className="title-bar flex flex-row flex-center">
           <div className="title-wrapper block center-element">        
-          <span className="title" style={styles.makeitbold}>List Of Answers Provided</span>
+          <span className="title" style={styles.makeitboldTeal}>Answers Gallery</span>
             </div>
           </header>                            
             <main className="chat flex flex-column flex-1 clear" ref={main => { this.chat = main; }}>
@@ -237,10 +252,11 @@ class Chat extends Component {
           </main>             
         </div>
       </div>
-      <button className="button-dander" type="button" onClick={() => this.getUsers()}>get users</button> 
+      <button className="button-dander" type="button" onClick={() => this.getUsers()}>get users</button>          
       <br/>
       <hr/>    
-    </main>;      
+    </main>;    
+
   }
 }
 

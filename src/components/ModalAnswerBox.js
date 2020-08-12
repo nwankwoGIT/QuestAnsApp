@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { useState} from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // create a modal box 
+
 const ModalAnswerBox = (props) => {
- const [open, setOpen] = React.useState(false) 
- const [answer, setAnswer] = React.useState("") 
+ const [open, setOpen] = useState(false) 
+ const [answer, setAnswer] = useState("") 
   return (
     <Modal
       onClose={() => setOpen(false)}

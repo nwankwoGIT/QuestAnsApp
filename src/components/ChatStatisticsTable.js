@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import './table.css';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
- export const ChatStatistics = ({questions}) => {   
+ export const ChatStatistics = ({questions, categoryToDisplay}) => {   
    return (
       <Fragment>
        <table class="zebra"> 
@@ -15,7 +15,8 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
          </thead>         
          {questions.length > 0 ? <Fragment>
            <tbody>
-          {questions.map(question => (             
+          {questions.map(question => ( 
+            (question.category === categoryToDisplay)  &&            
           <tr> 
             <td> {question.user.email}</td> 
             <td> {question.text}</td> 

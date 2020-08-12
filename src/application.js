@@ -93,7 +93,7 @@ class Application extends Component {
       </main>;
     } else if(this.state.login) {
       return <Chat  questions={this.state.questions} 
-                    categories={this.state.categories} 
+                    categories={this.state.categories}                    
                     answers={this.state.answers} 
                     users={this.state.users} /> 
       
