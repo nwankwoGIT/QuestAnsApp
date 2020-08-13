@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import './table.css';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
- export const ChatStatistics = ({questions, categoryToDisplay}) => {   
+ export const ChatStatistics = ({questions, categoryToDisplay}) => {  
+  const filteredQuestions = questions.filter(question => question.category === categoryToDisplay)
    return (
       <Fragment>
        <table className="zebra"> 
@@ -10,13 +11,13 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
               <th>Who posted question)</th> 
               <th>Question Text</th> 
               <th>Date posted</th> 
-	          <th>Responses</th> 
+	            <th>Responses</th> 
              {/* <th>Answers</th>   */}            
           </tr> 
          </thead>         
-         {questions.length > 0 ? <Fragment>
+         {filteredQuestions.length > 0 ? <Fragment>
            <tbody>
-          {questions.map((question, index) => ( 
+          {filteredQuestions.map((question, index) => ( 
             (question.category === categoryToDisplay)  &&            
           		<tr key={index}> 
             		<td> {question.user.email}</td> 
@@ -27,7 +28,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
           	  </tr>   
            ))}
            </tbody>
-          </Fragment> : <p className="text-center bg-gray-100 text-gray-500 py-5">There are currently No Question or Answers in the system</p>} 
+          </Fragment> : <p className="text-center bg-gray-100 text-gray-500 py-5">There are currently Nothing to display under this category </p>} 
          </table> 
          </Fragment> 
     )}

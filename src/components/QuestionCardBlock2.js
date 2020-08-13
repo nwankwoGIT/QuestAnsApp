@@ -1,10 +1,23 @@
 import React from 'react'
 import { Button, Card, Image } from 'semantic-ui-react'
-
 const QuestionCardBlock2 = ({question, questionId, avatar,category, count, email,date}) => {
-const sendAnswerMessage = (ev) => {    
-  
-}
+  const styles = {
+    makeitbold: {
+      fontWeight: "bold",
+    },
+    makeitboldTeal: {
+      fontWeight: "bold",
+      color: 'teal',
+      fontSize: '14px'
+    },
+    makeitboldRed: {
+      fontWeight: "bold",
+      fontSize: '18px',
+      color:"white",
+      backgroundColor: 'red',
+      paddingLeft: '20px'
+    }
+  }
 return (  
   <Card.Group>
     <Card>
@@ -12,14 +25,19 @@ return (
         <Image
           floated='right'
 	      size='mini' 
-	      src= {avatar}
+	      src={avatar}
         />
         <Card.Header> Categorgy: {category}</Card.Header>
         <Card.Meta>{questionId}</Card.Meta>
         <Card.Description>
-            <p><strong>{question}</strong></p>
-            <p>No. of responses: {count} </p>
-            <p>Date: {date} </p>
+          <div>
+              <p style={styles.makeitboldTeal}>{question} </p>
+              <p>Category: &nbsp;&nbsp; {category} </p>
+              <p>Responses: &nbsp;&nbsp; {count} </p>
+              <p>Date: &nbsp;&nbsp; {date} </p>
+              {/*<button className="ui facebook button">Click to Respond</button>                     
+              <button className="ui facebook button" type="button" onClick={() => createAnswer()}>Submit Your Answer</button> */}                    
+          </div>   
         </Card.Description>
       </Card.Content>
       <Card.Content extra>

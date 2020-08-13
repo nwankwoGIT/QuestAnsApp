@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 const AnswerCardBlock = ({avatar, answer, questionId, email,date}) => (
   <Card>
     <Card.Content>
-    <Card.Header>Submitted by : {" "} {email}</Card.Header>
+    <Card.Header>Submitted by : &nbsp;&nbsp; {email}</Card.Header>
         </Card.Content>
         <Card.Content>
           <Feed>
@@ -15,8 +15,8 @@ const AnswerCardBlock = ({avatar, answer, questionId, email,date}) => (
                 <Feed.Date content={questionId}/>
                 <Feed.Summary>
                   <div>                      
-                  <p>Answer: {answer} </p>                  
-                  <p>Date: {date} </p>                               
+                  <p>Answer: &nbsp;&nbsp; {answer} </p>                  
+                  <p>Date: &nbsp;&nbsp; {date} </p>                               
                   </div>
                 </Feed.Summary>
               </Feed.Content>

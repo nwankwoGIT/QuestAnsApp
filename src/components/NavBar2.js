@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import client from '../feathers';
-import { Button, Dropdown, Menu } from 'semantic-ui-react'
+import { Button, Dropdown, Menu, Message } from 'semantic-ui-react'
+import ModalUsersBox from './ModalUsersBox'
+import ModalQuestionByCategory from './ModalQuestionByCategory'
 const menu = ['fetchUsers', 'fetchQuestions', 'fetchAnswers', 'deleteQuestions', 'deleteAnswers']
 const colorsA = ['green', 'orange', 'yellow', 'red','olive']
 const colorsB = ['blue', 'violet', 'purple', 'pink', 'brown', 'grey']
-
+const categories = ['Programming','Technology','Politics','Science','Sports','Space Exploration'];
 export default class MenuExampleColoredInverted extends Component {
   state = { activeA: colorsA[0], activeB: colorsB[0] }
 
@@ -12,19 +14,30 @@ export default class MenuExampleColoredInverted extends Component {
    handleAClick = (e, { name })  => {
    this.setState({ activeA: name })    
    if(name === 'fetchUsers') {
-      this.getUsers()
+      window.alert("Json response users data sent to the console");
+      //this.getUsers()
     }
     else if(name === 'fetchQuestions') {
-       this.getQuestions()
+      window.alert("Json response questions data sent to the console");
+       //this.getQuestions()
      }
     else if(name === 'fetchAnswers') {
-        this.getAnswers()
+      window.alert("Json response answers data sent to the console");
+        //this.getAnswers()
       } 
 	 else{
 	  	
 	  }  
   }
   
+  showMessage = () => {
+    return (
+      <Message
+          header='Changes in Service'
+          content='We updated our privacy policy here to better service our customers. We recommend reviewing the changes.'
+      />
+    )
+  }
   getUsers = () => {    
     return client.service('users')
       .find({})
@@ -70,17 +83,45 @@ export default class MenuExampleColoredInverted extends Component {
         <Menu.Menu position='right'>
           <Dropdown item text='Categories'>
             <Dropdown.Menu>
-              <Dropdown.Item>Programming</Dropdown.Item>
-              <Dropdown.Item>Science</Dropdown.Item>
-              <Dropdown.Item>Politics</Dropdown.Item>
-		      <Dropdown.Item>Space Exploration</Dropdown.Item>
-		      <Dropdown.Item>Technology</Dropdown.Item>
-		      <Dropdown.Item>Politics</Dropdown.Item>
-            </Dropdown.Menu>
+              <Dropdown.Item>  {categories[0]}
+               <Menu.Item>
+                <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[0]}/>  
+                </Menu.Item>
+              </Dropdown.Item>
+              <Dropdown.Item> {categories[1]}
+                <Menu.Item>
+                  <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[1]}/>   
+                </Menu.Item>
+              </Dropdown.Item>                             
+                <Dropdown.Item> {categories[2]}
+                   <Menu.Item>
+                    <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[2]}/>    
+                   </Menu.Item>
+              </Dropdown.Item>              
+		          <Dropdown.Item> {categories[3]}
+              <Menu.Item>
+                <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[3]}/>  
+                </Menu.Item>
+              </Dropdown.Item>
+              <Dropdown.Item> {categories[4]}
+                <Menu.Item>
+                  <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[4]}/>  
+                </Menu.Item>
+              </Dropdown.Item>
+		          <Dropdown.Item> {categories[5]}
+                <Menu.Item>
+                  <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[5]}/>    
+                </Menu.Item>
+              </Dropdown.Item>		          
+		          <Dropdown.Item>Nope - Spare</Dropdown.Item>
+              </Dropdown.Menu>
           </Dropdown>
 
           <Menu.Item>
             <Button primary onClick={() => client.logout()}>Sign Out</Button>
+          </Menu.Item>
+          <Menu.Item>            
+            <ModalUsersBox users={this.props.users} />
           </Menu.Item>
         </Menu.Menu>
 		  

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Feed } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 //import { now } from 'moment'
 import client from '../feathers';
-const QuestionCardBlock = ({question, questionId, avatar,category, count, email,date}) => {    
+
+
+const QuestionCardBlock = ({question, questionId, avatar,category, count, email,date}) => {  
 const createAnswer = async() => {   
     client.service('answers').create({text: "My fake dummy asnswer", questionId: questionId }).then(() => {
       console.log('created an answer');
@@ -27,11 +29,15 @@ const styles = {
   }
 }
 
+useEffect(() => {   
+  
+}, [])
+
 return (
   <div>
   <Card>
     <Card.Content>
-    <Card.Header>Submitted by : {" "} {email}</Card.Header>
+    <Card.Header>Submitted by : &nbsp;&nbsp; {email}</Card.Header>
         </Card.Content>
         <Card.Content>
           <Feed>
@@ -43,9 +49,9 @@ return (
                 <Feed.Summary>
                   <div>
                   <p style={styles.makeitboldTeal}>{question} </p>
-                  <p>Category: {category} </p>
-                  <p>No. of responses: {count} </p>
-                  <p>Date: {date} </p>
+                  <p>Category: &nbsp;&nbsp; {category} </p>
+                  <p>Responses: &nbsp;&nbsp; {count} </p>
+                  <p>Date: &nbsp;&nbsp; {date} </p>
                   {/*<button className="ui facebook button">Click to Respond</button>                     
                   <button className="ui facebook button" type="button" onClick={() => createAnswer()}>Submit Your Answer</button> */}                    
                   </div>                  

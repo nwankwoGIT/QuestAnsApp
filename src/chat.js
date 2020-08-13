@@ -8,11 +8,16 @@ import 'semantic-ui-css/semantic.min.css'
 import QuestionCardBlock2 from './components/QuestionCardBlock2'
 //import AnswerCardBlock from './components/AnswerCardBlock'
 import CardItem from './components/CardItem'
-import { Button, TextArea, Form, Select } from 'semantic-ui-react'
+import { Button, TextArea, Form, Divider } from 'semantic-ui-react'
 //import SideBar from './components/SideBar'
 //import { Button, Form, Row, Col} from 'react-bootstrap';
 import ModalQuestionsBox from './components/ModalQuestionsBox'
-import ModalUsersBox from './components/ModalUsersBox'
+import {
+  getUsers,
+  getQuestions,
+  getAnswers,
+  getQuestionsPerCategory
+} from './queries'  
 
 class Chat extends Component {
   constructor(props) {
@@ -137,9 +142,6 @@ class Chat extends Component {
     // .splice(0, 0, answer)  ->  insert answer at the beginning (index 0), but remove nothing ( second 0)                   
 }
 
-  ModalTrigger = (users) => {
-    return <ModalUsersBox users={users} />
-  }
 // ================================================
   render() {
     const { users, questions, categories, answers } = this.props;
@@ -171,8 +173,8 @@ class Chat extends Component {
         </div>
       </header>
       <ModalQuestionsBox questions={questions} categoryToDisplay={this.state.currentCategory}/>
-      <ModalUsersBox users={users} />
-      <NavBar2/>    
+     
+      <NavBar2 users={users} questions={questions}/>    
       <div className="flex flex-row flex-1 clear">
         <aside className="sidebar col col-3 flex flex-column flex-space-between">
           <header className="flex flex-row flex-center">
@@ -226,8 +228,10 @@ class Chat extends Component {
               </form> 	    
             </div> )}   
           </main>
-          
-          <Form onSubmit={this.sendMessage.bind(this)} className="flex flex-column flex-space-between" id="send-message">    
+          <div className="flex flex-column flex-space-between" >
+             <hr style={{heigth:"10px", background:"red"}} /> 
+          </div> 
+          <Form onSubmit={this.sendMessage.bind(this)} className="flex flex-column flex-space-between" id="send-message">            
 			    <label style={styles.makeitboldTeal}>Select Category For Question:</label>         
           	<select name="category" className="flex flex-1" id="category">
            		{categories.map(category =>
@@ -260,7 +264,7 @@ class Chat extends Component {
       </div>
 	  <br/>
       {/* <Button className="ui black button" type="button" onClick={() => this.getUsers()}>get users</Button>     */}
-      <Button className="ui black button" type="button">CopyWright kelecitex.com</Button>   
+      <Button className="ui black button" type="button"onClick={() => getQuestionsPerCategory("Politics")} > <p>&copy; 2020 &nbsp;&nbsp; www.kelecitex.com</p></Button>   
       <br/>
       <hr/>    
     </main>;    

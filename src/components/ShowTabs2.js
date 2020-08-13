@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import Charts from './Plots/charts'
 import { Divider, Tab } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 const colors = [
@@ -20,7 +21,7 @@ const colors = [
 const panes = [
   {
     menuItem: 'Tab 1',
-    render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane>,
+    render: () => <Tab.Pane attached={false}><Charts/></Tab.Pane>,
   },
   {
     menuItem: 'Tab 2',
