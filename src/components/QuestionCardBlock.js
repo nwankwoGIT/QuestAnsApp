@@ -6,6 +6,7 @@ import client from '../feathers';
 
 
 const QuestionCardBlock = ({question, questionId, avatar,category, count, email,date}) => {  
+
 const createAnswer = async() => {   
     client.service('answers').create({text: "My fake dummy asnswer", questionId: questionId }).then(() => {
       console.log('created an answer');
@@ -29,8 +30,8 @@ const styles = {
   }
 }
 
-useEffect(() => {   
-  
+useEffect(() => {     
+
 }, [])
 
 return (

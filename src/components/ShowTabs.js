@@ -30,7 +30,7 @@ const panes = [
     render: () => <Tab.Pane attached={false}><SignUp/></Tab.Pane>,
   },
   {
-    menuItem: 'My Test Bed',
+    menuItem: 'Fun Plotting Playground',
 	  render: () => <Tab.Pane attached={false}><ShowTabs2/></Tab.Pane>,
   },
 ]

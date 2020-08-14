@@ -8,22 +8,15 @@ import 'semantic-ui-css/semantic.min.css'
 import QuestionCardBlock2 from './components/QuestionCardBlock2'
 //import AnswerCardBlock from './components/AnswerCardBlock'
 import CardItem from './components/CardItem'
-import { Button, TextArea, Form, Divider } from 'semantic-ui-react'
-//import SideBar from './components/SideBar'
+import { Button, TextArea, Form } from 'semantic-ui-react'
 //import { Button, Form, Row, Col} from 'react-bootstrap';
 import ModalQuestionsBox from './components/ModalQuestionsBox'
-import {
-  getUsers,
-  getQuestions,
-  getAnswers,
-  getQuestionsPerCategory
-} from './queries'  
 
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {	
-    currentCategory: 'Programming',    
+    currentCategory: 'Programming',      
   	};
   }
   sendMessage(ev) {
@@ -50,13 +43,14 @@ class Chat extends Component {
       client.service('answers').create({ text, questionId }).then(() => {
       this.updateQuestionAnswerArray(questionId, text);  
       answerinput.value = '';  
-      questionid.value = '';      
+      questionid.value = '';               
       });
-    }
+    }    
     ev.preventDefault();
+    window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
   }
 
-
+  
   scrollToBottom() {
     const chat = this.chat;
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
@@ -69,6 +63,7 @@ class Chat extends Component {
     this.scrollToBottom();
   }
 
+  
   componentWillUnmount() {
     // Clean up listeners
     client.service('questions').removeListener('created', this.scrollToBottom);	
@@ -76,8 +71,8 @@ class Chat extends Component {
   }
 
 // various query API's
-  getUsers = () => {    
-    return client.service('users')
+  getUsers = async() => {    
+    return await client.service('users')
       .find({})
       .then(function(doc) { 
        console.log(doc);       
@@ -85,16 +80,16 @@ class Chat extends Component {
     })  
   }
  
-  getQuestions = () => {    
-    return client.service('questions')
+  getQuestions = async() => {    
+    return await client.service('questions')
       .find({})
       .then(function(doc) { 
        console.log(doc);       
        return doc;
     })  
   }
-  getAnswers = () => {    
-    return client.service('answers')
+  getAnswers = async() => {    
+    return await client.service('answers')
       .find({})
       .then(function(doc) { 
        console.log(doc);       
@@ -102,8 +97,8 @@ class Chat extends Component {
     })  
   }
   
-  getAnswersFromOneQuestion = (questionId) => {    
-    return client.service('questions')
+  getAnswersFromOneQuestion = async(questionId) => {    
+    return await client.service('questions')
       .get({_id:questionId})
       .then(function(doc) { 
        console.log(doc);       
@@ -113,8 +108,8 @@ class Chat extends Component {
 
 
   // returns the removed recod 
-  removeAnswer = (id) => {    
-    return client.service('answers')
+  removeAnswer = async(id) => {    
+    return await client.service('answers')
       .remove({_id:id})
       .then(function(doc) { 
        console.log(doc);       
@@ -122,8 +117,8 @@ class Chat extends Component {
     })  
   }
 
-  getAnswers = () => {    
-    return client.service('answers')
+  getAnswers = async() => {    
+    return await client.service('answers')
       .find({})
       .then(function(doc) { 
        console.log(doc);       
@@ -131,20 +126,30 @@ class Chat extends Component {
     })  
   }
 
-  updateQuestionAnswerArray = async (id, answer) => {
-    const fromDb = await client.service('questions').get({_id: id});    
-    console.log(fromDb._id); 
-    await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
-    await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
-    //  slice syntaxes :
+  removeQuestion = async(questionId) => {    
+    return await client.service('questions')
+      .remove({_id: questionId})
+      .then(function(doc) { 
+         
+       console.log(doc);       
+       return doc;
+    })  
+  }
+
+   //  slice syntaxes : if you rather splice instead of push 
     // .splice(1, 1); remove 1 element at index 1:
     // .splice(3, 1) -> remove 1 elem at index 3
-    // .splice(0, 0, answer)  ->  insert answer at the beginning (index 0), but remove nothing ( second 0)                   
+    // .splice(0, 0, answer)  ->  insert answer at the beginning (index 0), but remove nothing ( second 0)       
+  updateQuestionAnswerArray = async (id, answer) => {
+    const fromDb = await client.service('questions').get({_id: id});        
+    await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
+    await client.service('questions').patch({_id:id}, {answers: fromDb.answers});   
+
 }
 
 // ================================================
   render() {
-    const { users, questions, categories, answers } = this.props;
+    let { users, questions, categories, answers } = this.props;    
 	// specify your styles here 
 	const styles = {
 		makeitbold: {
@@ -171,9 +176,7 @@ class Chat extends Component {
 		alt="Feathers Logo" /> */}
        <span className="title" style={styles.makeitboldTeal}>Questions And Answers App</span>
         </div>
-      </header>
-      <ModalQuestionsBox questions={questions} categoryToDisplay={this.state.currentCategory}/>
-     
+      </header>        
       <NavBar2 users={users} questions={questions}/>    
       <div className="flex flex-row flex-1 clear">
         <aside className="sidebar col col-3 flex flex-column flex-space-between">
@@ -190,10 +193,9 @@ class Chat extends Component {
                 <span className="absolute username">{user.email}</span>
               </a>
             </li>)}
-          </ul>   
-          
+          </ul>             
           <footer className="flex flex-row flex-center">
-            <a href="#" onClick={() => client.logout()} className="ui green button">
+            <a href="/signout" onClick={() => client.logout()} className="ui green button">
               Sign Out
             </a>
           </footer>
@@ -264,7 +266,7 @@ class Chat extends Component {
       </div>
 	  <br/>
       {/* <Button className="ui black button" type="button" onClick={() => this.getUsers()}>get users</Button>     */}
-      <Button className="ui black button" type="button"onClick={() => getQuestionsPerCategory("Politics")} > <p>&copy; 2020 &nbsp;&nbsp; www.kelecitex.com</p></Button>   
+      <Button className="ui black button" type="button"> <p>&copy; 2020 &nbsp;&nbsp; www.kelecitex.com</p></Button>   
       <br/>
       <hr/>    
     </main>;    

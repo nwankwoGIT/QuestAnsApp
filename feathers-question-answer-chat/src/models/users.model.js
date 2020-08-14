@@ -8,8 +8,11 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const schema = new mongooseClient.Schema({
     email : { type: mongooseClient.SchemaTypes.Email, unique: true, required: [true, 'Email is required'], },	
-    password: { type: String },
-    avatar : {type: String, required: false, },    
+    password: { type: String},
+    firstname: { type: String, required: false,},
+    lastname: { type: String ,required: false, },    
+    phone: { type: String ,required: false, },      
+    avatar : {type: String, required: false, },        
   }, {
     timestamps: true
   });

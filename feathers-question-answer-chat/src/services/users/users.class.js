@@ -18,7 +18,7 @@ const getGravatar = email => {
 exports.Users = class Users extends Service {
   create (data, params) {
     // This is the information we want from the user signup data
-    const { email, password, githubId, name } = data;
+    const { email, password, firstname, lastname, phone, githubId, name } = data;
     // Use the existing avatar image or return the Gravatar for the email
     const avatar = data.avatar || getGravatar(email);
     // The complete user
@@ -26,6 +26,9 @@ exports.Users = class Users extends Service {
       email,
       name,
       password,
+      firstname,
+      lastname,  
+      phone,
       githubId,
       avatar
     };

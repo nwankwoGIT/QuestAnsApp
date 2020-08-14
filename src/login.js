@@ -19,13 +19,14 @@ export default class Login extends Component {
     }).catch(error => this.setState({ error }));
   }
 
+  /*
   signup() {
     const { email, password } = this.state;
     return client.service('users')
       .create({ email, password })
       .then(() => this.login());
   }
-
+*/
 
   render() {
     return <main className="login container">

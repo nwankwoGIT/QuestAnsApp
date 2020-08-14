@@ -20,9 +20,9 @@ export default class SignUp extends Component {
   }
 
   signup() {
-    const { email, password } = this.state;
+    const { email, password, firstname, lastname, phone} = this.state;
     return client.service('users')
-      .create({ email, password })
+      .create({ email, password, firstname, lastname, phone})
       .then(() => this.login());
   }
 
@@ -41,10 +41,18 @@ export default class SignUp extends Component {
             <fieldset>
               <input className="block" type="email" name="email" placeholder="email" onChange={ev => this.updateField('email', ev)} />
             </fieldset>
-
             <fieldset>
               <input className="block" type="password" name="password" placeholder="password" onChange={ev => this.updateField('password', ev)} />
             </fieldset>
+            <fieldset>
+              <input className="block" type="text" name="firstname" placeholder="FirstName" onChange={ev => this.updateField('firstname', ev)} />
+            </fieldset>
+            <fieldset>
+              <input className="block" type="text" name="lastname" placeholder="LastName" onChange={ev => this.updateField('lastname', ev)} />
+            </fieldset>    
+            <fieldset>
+              <input className="block" type="text" name="phone" placeholder="Phone" onChange={ev => this.updateField('phone', ev)} />
+            </fieldset> 
             <button type="button" className="button button-primary block signup" onClick={() => this.signup()}>
               Signup
             </button>

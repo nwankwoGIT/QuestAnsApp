@@ -1,4 +1,5 @@
 import client from './feathers';
+//mongodb://nwankwotony:KelechiArinze1996@ds039125.mlab.com:39125/feathers-question-answer-db
 
 const getUsers = async() => {    
     return await client.service('users')
