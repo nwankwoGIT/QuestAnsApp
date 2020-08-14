@@ -3,27 +3,25 @@ import client from '../feathers';
 import { Button, Dropdown, Menu, Message } from 'semantic-ui-react'
 import ModalUsersBox from './ModalUsersBox'
 import ModalQuestionByCategory from './ModalQuestionByCategory'
-const menu = ['fetchUsers', 'fetchQuestions', 'fetchAnswers', 'deleteQuestions', 'deleteAnswers']
-const colorsA = ['green', 'orange', 'yellow', 'red','olive']
-const colorsB = ['blue', 'violet', 'purple', 'pink', 'brown', 'grey']
-const categories = ['Programming','Technology','Politics','Science','Sports','Space Exploration'];
-export default class MenuExampleColoredInverted extends Component {
-  state = { activeA: colorsA[0], activeB: colorsB[0] }
-
+const menu = ['Users', 'Questions', 'Answers']
+const colorsA = ['red', 'orange', 'olive']
+const categories = ['Programming','Technology ','Politics','Science','Sports','Space'];
+export default class NavMenu extends Component {
+  state = { activeA: colorsA[0]}
   //handleAClick = (e, { name }) => this.setState({ activeA: name })  
    handleAClick = (e, { name })  => {
    this.setState({ activeA: name })    
-   if(name === 'fetchUsers') {
-      window.alert("Json response users data sent to the console");
-      //this.getUsers()
+   if(name === 'Users') {
+      window.alert("Go see the users json list on the console");
+      this.getUsers()
     }
-    else if(name === 'fetchQuestions') {
-      window.alert("Json response questions data sent to the console");
-       //this.getQuestions()
+    else if(name === 'Questions') {
+      window.alert("Go see the questions json list on the console");
+       this.getQuestions()
      }
-    else if(name === 'fetchAnswers') {
-      window.alert("Json response answers data sent to the console");
-        //this.getAnswers()
+    else if(name === 'Answers') {
+      window.alert("Go see the answers json list on the console");
+        this.getAnswers()
       } 
 	 else{
 	  	
@@ -66,7 +64,7 @@ export default class MenuExampleColoredInverted extends Component {
   }
 
   render() {
-    const { activeA, activeB } = this.state
+    const { activeA } = this.state
     return (
       <div>
         <Menu inverted>
@@ -83,32 +81,32 @@ export default class MenuExampleColoredInverted extends Component {
         <Menu.Menu position='right'>
           <Dropdown item text='Categories'>
             <Dropdown.Menu>
-              <Dropdown.Item>  {categories[0]}
+              <Dropdown.Item> 
                <Menu.Item>
-                <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[0]}/>  
+                <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[0]}/>                  
                 </Menu.Item>
               </Dropdown.Item>
-              <Dropdown.Item> {categories[1]}
+              <Dropdown.Item> 
                 <Menu.Item>
                   <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[1]}/>   
                 </Menu.Item>
               </Dropdown.Item>                             
-                <Dropdown.Item> {categories[2]}
+                <Dropdown.Item> 
                    <Menu.Item>
                     <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[2]}/>    
                    </Menu.Item>
               </Dropdown.Item>              
-		          <Dropdown.Item> {categories[3]}
+		          <Dropdown.Item> 
               <Menu.Item>
                 <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[3]}/>  
                 </Menu.Item>
               </Dropdown.Item>
-              <Dropdown.Item> {categories[4]}
+              <Dropdown.Item> 
                 <Menu.Item>
                   <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[4]}/>  
                 </Menu.Item>
               </Dropdown.Item>
-		          <Dropdown.Item> {categories[5]}
+		          <Dropdown.Item> 
                 <Menu.Item>
                   <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[5]}/>    
                 </Menu.Item>

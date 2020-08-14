@@ -19,15 +19,7 @@ export default class Login extends Component {
     }).catch(error => this.setState({ error }));
   }
 
-  /*
-  signup() {
-    const { email, password } = this.state;
-    return client.service('users')
-      .create({ email, password })
-      .then(() => this.login());
-  }
-*/
-
+  
   render() {
     return <main className="login container">
     <div className="row">
@@ -41,12 +33,10 @@ export default class Login extends Component {
         <form className="form">
           <fieldset>
             <input className="block" type="email" name="email" placeholder="email" onChange={ev => this.updateField('email', ev)} />
-          </fieldset>
-    
+          </fieldset>    
           <fieldset>
             <input className="block" type="password" name="password" placeholder="password" onChange={ev => this.updateField('password', ev)} />
-          </fieldset>
-    
+          </fieldset>    
           <button type="button" className="button button-primary block signup" onClick={() => this.login()}>
             Log in
           </button>            

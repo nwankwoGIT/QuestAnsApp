@@ -10,7 +10,7 @@ import QuestionCardBlock2 from './components/QuestionCardBlock2'
 import CardItem from './components/CardItem'
 import { Button, TextArea, Form } from 'semantic-ui-react'
 //import { Button, Form, Row, Col} from 'react-bootstrap';
-import ModalQuestionsBox from './components/ModalQuestionsBox'
+//import ModalQuestionsBox from './components/ModalQuestionsBox'
 
 class Chat extends Component {
   constructor(props) {
@@ -47,10 +47,13 @@ class Chat extends Component {
       });
     }    
     ev.preventDefault();
-    window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
+    this.refreshPage();
+    //window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
   }
 
-  
+  refreshPage(){ 
+    window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
+}
   scrollToBottom() {
     const chat = this.chat;
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
@@ -146,6 +149,18 @@ class Chat extends Component {
     await client.service('questions').patch({_id:id}, {answers: fromDb.answers});   
 
 }
+
+deleteAnswer = async(ansId, quesId) => {    
+  let answerObj = await client.service('answers').remove({_id: ansId});
+  await client.service('questions').get({_id: quesId})    
+    .then(function(doc) { 
+      const answersToKeep = doc.answers.filter(answer => answer !== answerObj.text)
+      client.service('questions').patch({_id:this._id}, {answers: answersToKeep});                  
+      return doc;
+  });
+}
+
+
 
 // ================================================
   render() {
@@ -256,6 +271,7 @@ class Chat extends Component {
               <div className="question-wrapper">                        
               <CardItem avatar={answer.user.avatar} 
                                   questionId={answer.questionId} 
+                                  answerId={answer._id} 
                                   answer={answer.text} 
                                   email={answer.user.email} 
                                   date={moment(answer.createdAt).format('MMM Do, hh:mm:ss')} />                                                 

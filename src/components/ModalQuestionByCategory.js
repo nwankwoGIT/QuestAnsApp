@@ -3,14 +3,16 @@ import { Button, Header, Image, Modal } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // create a modal box 
 import {ChatStatistics} from './ChatStatisticsTable'
+
 const ModalQuestionByCategory= ({questions, categoryToDisplay}) => {
  const [open, setOpen] = useState(false)  
+
   return (
     <Modal
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button className="ui blue button">show questions in this category</Button>}
+      trigger={<Button className="ui blue button">{categoryToDisplay}</Button>}
     >
       <Modal.Header>Category:&nbsp;&nbsp; {categoryToDisplay}</Modal.Header>
       <Modal.Content image>
