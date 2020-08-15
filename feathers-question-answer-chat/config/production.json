@@ -1,5 +1,4 @@
 {
   "host": "feathers-question-answer-chat-app.feathersjs.com",
-  "port": "PORT",
-  "MONGOLAB_URI" :"mongodb://nwankwotony:KelechiArinze1996@ds039125.mlab.com:39125/feathers-question-answer-db"
+  "port": "PORT"  
 }

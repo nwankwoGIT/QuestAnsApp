@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import client from './feathers';
 import 'semantic-ui-css/semantic.min.css'
+
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -18,8 +20,7 @@ export default class Login extends Component {
       email, password
     }).catch(error => this.setState({ error }));
   }
-
-  
+    
   render() {
     return <main className="login container">
     <div className="row">

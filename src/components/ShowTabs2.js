@@ -3,21 +3,7 @@ import React, { Component } from 'react'
 import Charts from './Plots/charts'
 import { Divider, Tab } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-const colors = [
-  'red',
-  'orange',
-  'yellow',
-  'olive',
-  'green',
-  'teal',
-  'blue',
-  'violet',
-  'purple',
-  'pink',
-  'brown',
-  'grey',
-]
-
+const colors = ['red','orange','yellow','olive','green','teal','blue','violet','purple','pink','brown','grey'];
 const panes = [
   {
     menuItem: 'Tab 1',

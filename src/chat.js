@@ -33,22 +33,21 @@ class Chat extends Component {
     ev.preventDefault();
   }
 
-  sendAnswerMessage(ev) {    
+  async sendAnswerMessage(ev) {    
     const answerinput = ev.target.querySelector('[name="answertext"]');
     const questionid = ev.target.querySelector('[name="questionId"]');
     const text = answerinput.value;
     const questionId = questionid.value;
 
     if((text) && (questionId)){
-      client.service('answers').create({ text, questionId }).then(() => {
+      await client.service('answers').create({ text, questionId }).then(() => {
       this.updateQuestionAnswerArray(questionId, text);  
-      answerinput.value = '';  
-      questionid.value = '';               
+      answerinput.value = '';                       
       });
+
     }    
-    ev.preventDefault();
-    this.refreshPage();
-    //window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
+    ev.preventDefault();    
+    window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
   }
 
   refreshPage(){ 
@@ -59,7 +58,7 @@ class Chat extends Component {
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
 
-  componentDidMount() {
+  componentDidMount() {    
     this.scrollToBottom = this.scrollToBottom.bind(this);
     client.service('questions').on('created', this.scrollToBottom);
     client.service('answers').on('created', this.scrollToBottom);    
@@ -139,32 +138,41 @@ class Chat extends Component {
     })  
   }
 
-   //  slice syntaxes : if you rather splice instead of push 
-    // .splice(1, 1); remove 1 element at index 1:
-    // .splice(3, 1) -> remove 1 elem at index 3
-    // .splice(0, 0, answer)  ->  insert answer at the beginning (index 0), but remove nothing ( second 0)       
+  deleteAnAnswer = async(answerObj) => {    
+    await client.service('answers').remove({_id: answerObj._id});  
+    await client.service('questions').update({_id: answerObj.questionId },{ $pull: { answers: { $in: [ answerObj.text ] }}},
+      { multi: false }
+    )
+  }
+  
   updateQuestionAnswerArray = async (id, answer) => {
-    const fromDb = await client.service('questions').get({_id: id});        
-    await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
-    await client.service('questions').patch({_id:id}, {answers: fromDb.answers});   
-
+    //const fromDb = await client.service('questions').get({_id: id});        
+    //await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
+    //await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
+    await client.service('questions').patch({ _id: id}, {$push: {answers: answer}}, { new: true });
 }
 
-deleteAnswer = async(ansId, quesId) => {    
-  let answerObj = await client.service('answers').remove({_id: ansId});
-  await client.service('questions').get({_id: quesId})    
+
+
+deleteAnswer = async(answer, answerId, questionId) => {    
+  await client.service('answers').remove({_id: answerId});
+  await client.service('questions').get({_id: questionId})    
     .then(function(doc) { 
-      const answersToKeep = doc.answers.filter(answer => answer !== answerObj.text)
-      client.service('questions').patch({_id:this._id}, {answers: answersToKeep});                  
-      return doc;
-  });
+      for( var i = 0; i < doc.answers.length; i++)
+       { 
+         if ( doc.answers[i] === answer) 
+        { doc.answers.splice(i, 1); }
+      }  
+      console.log(doc.answers)      
+      //const answersToKeep = doc.answers.filter(answer => answer !== answerObj.text)
+      client.service('questions').patch({_id:questionId}, {answers: doc.answers});            
+      
+    }); 
+   window.location.reload(false);
 }
-
-
-
 // ================================================
-  render() {
-    let { users, questions, categories, answers } = this.props;    
+  render() {    
+    const { users, questions, categories, answers } = this.props;    
 	// specify your styles here 
 	const styles = {
 		makeitbold: {
@@ -274,7 +282,7 @@ deleteAnswer = async(ansId, quesId) => {
                                   answerId={answer._id} 
                                   answer={answer.text} 
                                   email={answer.user.email} 
-                                  date={moment(answer.createdAt).format('MMM Do, hh:mm:ss')} />                                                 
+                                  date={moment(answer.createdAt).format('MMM Do, hh:mm:ss')} /> 
               </div>
             </div>)}                   
           </main>             

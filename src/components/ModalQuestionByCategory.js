@@ -1,12 +1,10 @@
 import React, { useState} from 'react'
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Image, Modal } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // create a modal box 
 import {ChatStatistics} from './ChatStatisticsTable'
-
 const ModalQuestionByCategory= ({questions, categoryToDisplay}) => {
  const [open, setOpen] = useState(false)  
-
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -17,17 +15,15 @@ const ModalQuestionByCategory= ({questions, categoryToDisplay}) => {
       <Modal.Header>Category:&nbsp;&nbsp; {categoryToDisplay}</Modal.Header>
       <Modal.Content image>
         <Image size='tiny' src='https://react.semantic-ui.com/images/avatar/small/rachel.png' wrapped />        
-		<ChatStatistics questions={questions} categoryToDisplay={categoryToDisplay} />
+		  <ChatStatistics questions={questions} categoryToDisplay={categoryToDisplay} />
       </Modal.Content>
-      <Modal.Actions>
-		
-        <Button 
+      <Modal.Actions>		
+      <Button 
 		  color='black' 
 		  onClick={() => setOpen(false)}>
           Cancel
-        </Button>
-		
-        <Button
+      </Button>		
+      <Button
           content="Ok"
           labelPosition='right'
           icon='checkmark'

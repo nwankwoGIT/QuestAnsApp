@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import Login from './login';
 import Chat from './chat';
 import client from './feathers';
-import SimpleTabs from './components/SimpleTabs';
 import ShowTabs from './components/ShowTabs';
-import SignUpForm from './components/SignUpForm'
-import NavBar2 from './components/NavBar2'
-
 class Application extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +21,8 @@ class Application extends Component {
 	};
   }
 
+
+  
   componentDidMount() {
     const questions = client.service('questions');
     const answers = client.service('answers');

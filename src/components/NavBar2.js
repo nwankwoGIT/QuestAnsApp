@@ -5,7 +5,9 @@ import ModalUsersBox from './ModalUsersBox'
 import ModalQuestionByCategory from './ModalQuestionByCategory'
 const menu = ['Users', 'Questions', 'Answers']
 const colorsA = ['red', 'orange', 'olive']
-const categories = ['Programming','Technology ','Politics','Science','Sports','Space'];
+const categories = ['Programming','Technology ','Politics','Science','Sports','Space Exploration'];
+
+
 export default class NavMenu extends Component {
   state = { activeA: colorsA[0]}
   //handleAClick = (e, { name }) => this.setState({ activeA: name })  

@@ -27,6 +27,6 @@
       "usernameField": "email",
       "passwordField": "password"
     }
-  },
-  "mongodb": "mongodb://localhost:27017/feathersQuestionAnswerDb"
+  },  
+  "mongodb" : "mongodb://localhost:27017/feathersQuestionAnswerDb"
 }

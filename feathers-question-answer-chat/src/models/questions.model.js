@@ -11,7 +11,7 @@ module.exports = function (app) {
     text: { type: String, required: true },
     category: { type: String, required: true },
 	  userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},  
-	  answers: [{ type: String, required: true }]
+	  answers: [{type: String, required: false}]
   }, {
     timestamps: true
   });
