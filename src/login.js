@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import client from './feathers';
 import 'semantic-ui-css/semantic.min.css'
-
+import {Message } from 'semantic-ui-react'
 
 export default class Login extends Component {
   constructor(props) {
@@ -27,6 +27,10 @@ export default class Login extends Component {
       <div className="col-12 col-6-tablet push-3-tablet text-center heading">
         <h1 className="font-100">Log in </h1>
         <p>{this.state.error && this.state.error.message}</p>
+        <Message
+          header='Information'
+          content='Your email and password are required for a successful login ! .'
+          />
       </div>
     </div>
     <div className="row">

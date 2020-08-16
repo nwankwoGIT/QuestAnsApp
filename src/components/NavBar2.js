@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import client from '../feathers';
-import { Button, Dropdown, Menu, Message } from 'semantic-ui-react'
+import { Button, Dropdown, Menu } from 'semantic-ui-react'
 import ModalUsersBox from './ModalUsersBox'
 import ModalQuestionByCategory from './ModalQuestionByCategory'
 const menu = ['Users', 'Questions', 'Answers']
@@ -14,30 +14,22 @@ export default class NavMenu extends Component {
    handleAClick = (e, { name })  => {
    this.setState({ activeA: name })    
    if(name === 'Users') {
-      window.alert("Go see the users json list on the console");
-      this.getUsers()
+      window.alert("place holder for users object to the console");
+      //this.getUsers()
     }
     else if(name === 'Questions') {
-      window.alert("Go see the questions json list on the console");
-       this.getQuestions()
+      window.alert("place holder for questions database object to the console");
+       //this.getQuestions()
      }
     else if(name === 'Answers') {
-      window.alert("Go see the answers json list on the console");
-        this.getAnswers()
+      window.alert("place holder for answers object to the console");
+        //this.getAnswers()
       } 
 	 else{
 	  	
 	  }  
   }
   
-  showMessage = () => {
-    return (
-      <Message
-          header='Changes in Service'
-          content='We updated our privacy policy here to better service our customers. We recommend reviewing the changes.'
-      />
-    )
-  }
   getUsers = () => {    
     return client.service('users')
       .find({})

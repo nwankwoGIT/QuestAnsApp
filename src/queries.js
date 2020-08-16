@@ -35,13 +35,22 @@ const  getAnswers = async() => {
     return doc;
  }) 
  }
-
  
-    
+ //MongoDB will return its results in unsorted order by default. 
+ //However, text search queries will compute a relevance score for each document that specifies how well a document matches the query.
+ //To sort the results in order of relevance score, you must explicitly project the $meta textScore field and sort on it:
+
+ const textSearch = async(searchtext) => {
+  return await client.service('questions').find( 
+  { $text: { $search: searchtext } },
+  { score: { $meta: 'textScore' } }
+).sort( { score: { $meta: 'textScore' } } )
+}   
 
 module.exports = {
     getUsers,
     getQuestions,
     getAnswers,
-    getQuestionsPerCategory
+    getQuestionsPerCategory,
+    textSearch
 };  

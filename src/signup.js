@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import client from './feathers';
-
+import {Message } from 'semantic-ui-react'
 export default class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -29,13 +29,19 @@ export default class SignUp extends Component {
       .then(() => this.login());
   }
 
-
+  
   render() {
     return <main className="login container">
       <div className="row">
         <div className="col-12 col-6-tablet push-3-tablet text-center heading">
           <h1 className="font-100">Sign Up</h1>
           <p>{this.state.error && this.state.error.message}</p>
+         
+          <Message
+          header='Information'
+          content='You should be automatically logged in after successfully entering your credentials .'
+          />
+         
         </div>
       </div>
       <div className="row">

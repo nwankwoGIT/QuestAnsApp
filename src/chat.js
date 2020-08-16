@@ -247,7 +247,7 @@ deleteAnswer = async(answer, answerId, questionId) => {
 			 			  		  
               <form onSubmit={this.sendAnswerMessage.bind(this)} style={{flexBasis: '100%'}} className="flex flex-column flex-space-between" id="send-response-message">                      
                <input type="text" name="questionId" value={question._id}  className="flex flex-1" hidden readOnly />  
-			         <textarea name="answertext"  placeholder="Type in your answer here"  className="flex flex-1"  rows="4" cols="50"></textarea>				               
+			         <textarea name="answertext"  placeholder="Type in your answer to this question id here"  className="flex flex-1"  rows="4" cols="50"></textarea>				               
                {/*<input type="text" name="answertext"  placeholder="Type in your answer here"  className="flex flex-1" />   */}                           
                <button className="ui teal button flex flex-0" type="submit">Submit Answer</button>               
               </form> 	    
@@ -291,7 +291,7 @@ deleteAnswer = async(answer, answerId, questionId) => {
 	  <br/>
       {/* <Button className="ui black button" type="button" onClick={() => this.getUsers()}>get users</Button>     */}
       <Button className="ui black button" type="button"> <p>&copy; 2020 &nbsp;&nbsp; www.kelecitex.com</p></Button>   
-      <br/>
+      <br/>  
       <hr/>    
     </main>;    
 
