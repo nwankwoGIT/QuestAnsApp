@@ -170,6 +170,14 @@ deleteAnswer = async(answer, answerId, questionId) => {
     }); 
    window.location.reload(false);
 }
+
+
+
+
+
+
+
+
 // ================================================
   render() {    
     const { users, questions, categories, answers } = this.props;    
@@ -218,7 +226,7 @@ deleteAnswer = async(answer, answerId, questionId) => {
             </li>)}
           </ul>             
           <footer className="flex flex-row flex-center">
-            <a href="/signout" onClick={() => client.logout()} className="ui green button">
+            <a href="/" onClick={() => client.logout()} className="ui green button">
               Sign Out
             </a>
           </footer>

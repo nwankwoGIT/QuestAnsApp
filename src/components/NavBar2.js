@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import client from '../feathers';
 import { Button, Dropdown, Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 import ModalUsersBox from './ModalUsersBox'
 import ModalQuestionByCategory from './ModalQuestionByCategory'
 const menu = ['Users', 'Questions', 'Answers']
@@ -107,8 +108,7 @@ export default class NavMenu extends Component {
               </Dropdown.Item>		          
 		          <Dropdown.Item>Nope - Spare</Dropdown.Item>
               </Dropdown.Menu>
-          </Dropdown>
-
+          </Dropdown>          
           <Menu.Item>
             <Button primary onClick={() => client.logout()}>Sign Out</Button>
           </Menu.Item>

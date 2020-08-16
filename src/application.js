@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Chat from './chat';
 import client from './feathers';
 import ShowTabs from './components/ShowTabs';
+import { Route, Switch} from 'react-router-dom';
+
 class Application extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +84,14 @@ class Application extends Component {
       users: [...this.state.users, user]
     }));
   }
-
+  getUsers = async() => {    
+    return await client.service('users')
+      .find({})
+      .then(function(doc) { 
+       console.log(doc);       
+       return doc;
+    })  
+  }
   render() {
     if(this.state.login === undefined) {
       return <main className="container text-center">
@@ -97,20 +106,13 @@ class Application extends Component {
     }
 
     return (
-      <div>                        
-        <ShowTabs/>
+      <div>           
+        <Switch>   
+           <Route path='/'  component={ShowTabs} exact />                
+        </Switch>      
       </div>
-    )
+    )    
   }
 }
 
 export default Application;
-/*
-return (
-  <div> 
-    <NavBar2/>        
-    <Login />
-    <ShowTabs2/>
-  </div>
-)
-*/

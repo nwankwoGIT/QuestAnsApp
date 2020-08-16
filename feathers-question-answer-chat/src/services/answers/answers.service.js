@@ -15,3 +15,4 @@ module.exports = function (app) {
   const service = app.service('answers');
   service.hooks(hooks);
 };
+
