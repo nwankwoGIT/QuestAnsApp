@@ -14,9 +14,24 @@ module.exports = function (app) {
   }, {
     timestamps: true
   });
-  // put your pre and post save schema instance methods here 
+  // put your pre and post save schema instance methods here for the answer object processing 
   schema.pre('save', function () {
     this.setTimeTaken();
+  });
+
+  schema.post('remove', async(document) => {        
+    const answer = document.text;
+    await app.service('questions').find({ answers: { $in: [answer] } }).then(questions => {
+      Promise.all(
+        questions.map(question =>
+          app.service('questions').update(
+            question._id,
+            { $pull: { answers: answer } },
+            { new: true }
+          )
+        )
+      );
+    });
   });
 
   schema.methods.setTimeTaken = function () {

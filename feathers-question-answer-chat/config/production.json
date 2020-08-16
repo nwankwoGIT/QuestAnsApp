@@ -1,4 +1,5 @@
 {
   "host": "feathers-question-answer-chat-app.feathersjs.com",
-  "port": "PORT"  
+  "port": "PORT",
+  "mongodb": "mongodb://nwankwotony:KelechiArinze1996@ds039125.mlab.com:39125/feathers-question-answer-db?ssl=true" 
 }
