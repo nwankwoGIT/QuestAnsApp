@@ -15,8 +15,7 @@ import { Button, TextArea, Form } from 'semantic-ui-react'
 class Chat extends Component {
   constructor(props) {
     super(props);
-    this.state = {	
-    currentCategory: 'Programming',      
+    this.state = {     
   	};
   }
   sendMessage(ev) {
@@ -41,13 +40,15 @@ class Chat extends Component {
 
     if((text) && (questionId)){
       await client.service('answers').create({ text, questionId }).then(() => {
-      this.updateQuestionAnswerArray(questionId, text);  
-      answerinput.value = '';                       
+      this.updateQuestionAnswerArray(questionId, text);        
+                           
       });
-
+      ev.preventDefault(); 
+      answerinput.value = '';  
     }    
-    ev.preventDefault();    
+       
     window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
+
   }
 
   refreshPage(){ 
@@ -65,7 +66,10 @@ class Chat extends Component {
     this.scrollToBottom();
   }
 
-  
+  componentWillUpdate() {
+    // 
+    
+  }
   componentWillUnmount() {
     // Clean up listeners
     client.service('questions').removeListener('created', this.scrollToBottom);	
@@ -144,39 +148,13 @@ class Chat extends Component {
       { multi: false }
     )
   }
-  
-  updateQuestionAnswerArray = async (id, answer) => {
-    //const fromDb = await client.service('questions').get({_id: id});        
-    //await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
-    //await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
-   // await client.service('questions').patch({ _id: id}, {$push: {answers: answer}}, { new: true });
-    //await client.service('questions').update({ _id: id}, {$push: {answers: answer}}, { new: true });
-    /*
-    await client.service('questions').update(
-      { _id: id },
-      {
-        $push: {
-          answers: {
-            $each: [ answer ]        
-          }
-        }
-      }
-    )
-*/
-    await client.service('questions').update(
-      { _id: id },
-      { $addToSet: { answers: [ answer ] } }
-   )
 
 
-
-
-
+  updateQuestionAnswerArray = async (questionId, answer) => {
+   const fromDb = await client.service('questions').get({_id: questionId});      
+   await fromDb.answers.push(answer);    
+   await client.service('questions').patch({_id:questionId}, {answers: fromDb.answers});      
 }
-
-
-
-
 
 
 
@@ -196,12 +174,6 @@ deleteAnswer = async(answer, answerId, questionId) => {
     }); 
    window.location.reload(false);
 }
-
-
-
-
-
-
 
 
 // ================================================
@@ -323,7 +295,7 @@ deleteAnswer = async(answer, answerId, questionId) => {
         </div>
       </div>
 	  <br/>
-      {/* <Button className="ui black button" type="button" onClick={() => this.getUsers()}>get users</Button>     */}
+      {/* <Button className="ui black button" type="button" onClick={() => this.deleteAnAnswerFromQuestionAnswerArray("my answer ")}>get users</Button>   */}  
       <Button className="ui black button" type="button"> <p>&copy; 2020 &nbsp;&nbsp; www.kelecitex.com</p></Button>   
       <br/>  
       <hr/>    
@@ -333,15 +305,3 @@ deleteAnswer = async(answer, answerId, questionId) => {
 }
 
 export default Chat;
-/*
-<form onSubmit={this.sendAnswerMessage.bind(this)} className="flex flex-row flex-space-between" id="send-answermessage">
-<select name="questionid" className="flex flex-1" id="questionid">
-    <option value="">1</option>
-    <option value="">2</option>
-    <option value="">3</option>
-    <option value="">4</option>
-  </select>
-  <input type="text" name="answertext" className="flex flex-1" />
-  <button className="button-primary" type="submit">Submit Answer</button>            
-</form>  
-*/ 

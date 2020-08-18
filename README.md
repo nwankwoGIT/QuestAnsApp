@@ -6,7 +6,7 @@ My name is Anthony S Nwankwo and this is the Readme.md file for my GitHub
 It contains the latest update to files in my final project portfolio (capstone Project 05)
 
 Overview/description of the project
-===================================
+============================================
 
 
 The goal of this project is to build out a 3-tier Question and Answer App. The basic requirements are as follows:

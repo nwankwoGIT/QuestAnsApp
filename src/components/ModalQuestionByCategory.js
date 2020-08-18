@@ -10,7 +10,7 @@ const ModalQuestionByCategory= ({questions, categoryToDisplay}) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button className="ui blue button">{categoryToDisplay}</Button>}
+      trigger={<Button className="ui pink button">{categoryToDisplay}</Button>}
     >
       <Modal.Header>Category:&nbsp;&nbsp; {categoryToDisplay}</Modal.Header>
       <Modal.Content image>

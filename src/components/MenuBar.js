@@ -50,10 +50,7 @@ class MenuBar extends Component {
   render() {
     return (
       <div className="App">
-       <Route
-          exact path="/"
-          component={NavBar} />
-              
+       <Route  exact path="/"  component={NavBar} />              
       </div>
     );
   }

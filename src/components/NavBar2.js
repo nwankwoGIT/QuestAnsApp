@@ -106,7 +106,7 @@ export default class NavMenu extends Component {
                   <ModalQuestionByCategory questions={this.props.questions} categoryToDisplay={categories[5]}/>    
                 </Menu.Item>
               </Dropdown.Item>		          
-		          <Dropdown.Item>Nope - Spare</Dropdown.Item>
+		          <Dropdown.Item>Spare Slot</Dropdown.Item>
               </Dropdown.Menu>
           </Dropdown>          
           <Menu.Item>

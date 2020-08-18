@@ -8,7 +8,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
        <table className="zebra"> 
           <thead> 
           <tr> 
-              <th>Who posted question)</th> 
+              <th>Who posted question</th> 
               <th>Question Text</th> 
               <th>Date posted</th> 
 	            <th>Responses</th> 
@@ -23,7 +23,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
             		<td> {question.user.email}</td> 
             		<td> {question.text}</td> 
             		<td> {question.createdAt}</td> 
-			        <td> {question.answers.length}</td> 
+			         <td> {question.answers.length}</td> 
             	{/* {question.answers.map((answer,item) => <td key={item}> {answer}<br/></td>)}  */}
           	  </tr>   
            ))}
