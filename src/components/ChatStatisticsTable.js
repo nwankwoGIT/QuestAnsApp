@@ -28,7 +28,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
           	  </tr>   
            ))}
            </tbody>
-          </Fragment> : <p className="text-center bg-gray-100 text-gray-500 py-5">There are currently Nothing to display under this category </p>} 
+          </Fragment> : <tbody><tr><td className="text-center bg-gray-100 text-gray-500 py-5">There are currently Nothing to display under this category </td></tr></tbody>} 
          </table> 
          </Fragment> 
     )}
