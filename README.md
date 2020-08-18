@@ -53,7 +53,7 @@ This app is pretty sophisticated in a small way: It handles these scenarios:
 
 The most challenging part is synchronizing the answers to the questions (a form appears to the right of every question). Each answer is tied to the question. Once the 
 answer is posted, it will automatically appear on the right most panel - and at the same time the linking question is updated in the database with adding any new answer to the answers-array 
-property of the question schema. (This was the hardest challenge I faced in this app). You will know this works by watching the update in the question's count box
+property of the question schema. (This was the hardest challenge I faced in this app). 
  
  
 I have tailored it to be used by a teacher to track tasks assigned to his/her students :
