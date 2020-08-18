@@ -54,7 +54,13 @@ This app is pretty sophisticated in a small way: It handles these scenarios:
 The most challenging part is synchronizing the answers to the questions (a form appears to the right of every question). Each answer is tied to the question. Once the 
 answer is posted, it will automatically appear on the right most panel - and at the same time the linking question is updated in the database with adding any new answer to the answers-array 
 property of the question schema. (This was the hardest challenge I faced in this app. The second challenge was wiring up the authentication). 
- 
+
+ATTENTION:
+YOU MUST REFRESH THE SCREEN every time you create a new answer to a question in orser to see the answers-response count updated under the question details.
+As you know the question is always created before any answer. A question has many answers and therefore I have designed the app to patche the answer array attribute of each question schema 
+in the MongoDB database after each each new answer is created. Since props cannot be modified, a screen refresh will
+force a new trip to the database. 
+
 
 The technologies used for the project are:
 
@@ -72,7 +78,7 @@ Ideas for future improvement
 -	Improve on adding notifications during sign-in and login  	
 -	Migrate to database management systems (SQL vs NON-SQL used here) that are more query friendly   
 -   I would improve by allowing users to delete their questions or answers
-
+-   figure a more asynchronous way to update the response count in the answer card display (USING REDUX or CONTEXT-API)
 
 
 User Stories
