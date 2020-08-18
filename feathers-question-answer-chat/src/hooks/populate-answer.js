@@ -13,11 +13,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const addUser = async answer => {
       // Get the user based on their id, pass the `params` along so
       // that we get a safe version of the user data
-      const user = await app.service('users').get(answer.userId, params);  
+      const user = await app.service('users').get(answer.userId, params);
+
       // Merge the message content to include the `user` object
       return {
         ...answer,
-        user,               
+        user
       };
     };
 
@@ -33,6 +34,3 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return context;
   };
 };
-
-
-

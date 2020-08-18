@@ -149,8 +149,34 @@ class Chat extends Component {
     //const fromDb = await client.service('questions').get({_id: id});        
     //await fromDb.answers.push(answer);    // insert new values at the end of the array  : await fromDb.answers.splice(0, 0, answer);
     //await client.service('questions').patch({_id:id}, {answers: fromDb.answers}); 
-    await client.service('questions').patch({ _id: id}, {$push: {answers: answer}}, { new: true });
+   // await client.service('questions').patch({ _id: id}, {$push: {answers: answer}}, { new: true });
+    //await client.service('questions').update({ _id: id}, {$push: {answers: answer}}, { new: true });
+    /*
+    await client.service('questions').update(
+      { _id: id },
+      {
+        $push: {
+          answers: {
+            $each: [ answer ]        
+          }
+        }
+      }
+    )
+*/
+    await client.service('questions').update(
+      { _id: id },
+      { $addToSet: { answers: [ answer ] } }
+   )
+
+
+
+
+
 }
+
+
+
+
 
 
 

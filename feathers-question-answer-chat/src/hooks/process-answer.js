@@ -21,7 +21,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const questionId = data.questionId;
     // Update the original data (so that people can't submit additional stuff)
     context.data = {
-      text,     
+      text,
       questionId,      
       // Set the user id
       userId: user._id,

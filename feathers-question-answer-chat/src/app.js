@@ -43,6 +43,7 @@ app.get('*', (req, res) => {
 
 
 
+
 // Set up Plugins and providers
 app.configure(express.rest());
 app.configure(socketio());
@@ -63,7 +64,3 @@ app.use(express.errorHandler({ logger }));
 app.hooks(appHooks);
 
 module.exports = app;
-
-
-//"mongodb": "mongodb://localhost:27017/feathersQuestionAnswerDb"
-//"mongodb" : "mongodb://nwankwotony:KelechiArinze1996@ds039125.mlab.com:39125/feathers-question-answer-db"
