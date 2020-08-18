@@ -39,21 +39,22 @@ class Chat extends Component {
     const questionId = questionid.value;
 
     if((text) && (questionId)){
-      await client.service('answers').create({ text, questionId }).then(() => {
-      this.updateQuestionAnswerArray(questionId, text);        
-                           
-      });
-      ev.preventDefault(); 
-      answerinput.value = '';  
-    }    
-       
-    window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
-
+		client.service('answers').create({ text, questionId}).then(() => {
+          answerinput.value = '';
+		  this.updateQuestionAnswerArray(questionId, text);
+        });
+    }  
+    ev.preventDefault();   
+    //window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
   }
+
+
 
   refreshPage(){ 
     window.location.reload(false);  // trigger entire page reload to update the answer array of the question 
 }
+
+
   scrollToBottom() {
     const chat = this.chat;
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
@@ -150,10 +151,12 @@ class Chat extends Component {
   }
 
 
-  updateQuestionAnswerArray = async (questionId, answer) => {
-   const fromDb = await client.service('questions').get({_id: questionId});      
-   await fromDb.answers.push(answer);    
-   await client.service('questions').patch({_id:questionId}, {answers: fromDb.answers});      
+  updateQuestionAnswerArray = async(questionId, answer) => {
+   const fromDb =  await client.service('questions').get({_id: questionId});      
+   fromDb.answers.push(answer);  
+   //console.log(fromDb.answers);  
+   await client.service('questions').patch({_id: questionId}, {answers: fromDb.answers});
+   //await client.service('questions').update({_id: questionId },{ $push: { answers: { $in: [ answer ] }}});   
 }
 
 
@@ -172,7 +175,7 @@ deleteAnswer = async(answer, answerId, questionId) => {
       client.service('questions').patch({_id:questionId}, {answers: doc.answers});            
       
     }); 
-   window.location.reload(false);
+   //window.location.reload(false);
 }
 
 
