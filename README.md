@@ -1,4 +1,4 @@
-# QuestAnsApp
+
 Final Capstone
 ==============
 
@@ -12,10 +12,10 @@ Overview/description of the project
 The goal of this project is to build out a 3-tier Question and Answer App. The basic requirements are as follows:
 
 - React for the front-end
-- MongoDB or MySQL for the datastore back-end
+- MongoDB or MySQL for the datastore back-end. I chose to use MongoDb to challenge myself. 
 - Express/Framework for the middleware which handles users authentication and talks to both the datastore and the front-end 
 
-I started this project with a view to making is as simple as possible. I chose to go with feathers.js (some interesting express framework that 
+I started this project with a view to making is as simple as possible. I chose to go with feathers.js (which is some interesting express framework that 
 seems very powerful in the sense that it has an in-built authentication system. Feathers has extensive tutorials and it has three key technology areas:
 
 - the app itself
@@ -29,7 +29,7 @@ seems very powerful in the sense that it has an in-built authentication system. 
 - clone this repository to your local machine 
 - It has frontend and back-end sections
 
-After successful installation of the MongoDb Atlas, create a database named "feathersQuestionAnswerDb" and initialize with "users" collection 
+After successful installation of the MongoDb Atlas, create a database named "feathersQuestionAnswerDb" and initialize it with "users" collection 
 (Usually The product won't let you create a database without at one collection)
 
 from the command line, 
@@ -53,26 +53,13 @@ This app is pretty sophisticated in a small way: It handles these scenarios:
 
 The most challenging part is synchronizing the answers to the questions (a form appears to the right of every question). Each answer is tied to the question. Once the 
 answer is posted, it will automatically appear on the right most panel - and at the same time the linking question is updated in the database with adding any new answer to the answers-array 
-property of the question schema. (This was the hardest challenge I faced in this app). 
+property of the question schema. (This was the hardest challenge I faced in this app. The second challenge was wiring up the authentication). 
  
- 
-I have tailored it to be used by a teacher to track tasks assigned to his/her students :
 
-* 	allows the teacher-instructor to enter the name of the student, the assigned task and toggle the status of completion
-* 	allows each record to be edited (for updates or unintentional mistakes)
-* 	allows the user to mark todo item as completed (by using a strike-out and without deleting the record)
-* 	allows user to PERMANENTLY delete any record 
-* 	user can display all completed todos or active todos or ALL todos
-*   user can toggle completion status for the home page WITHOUT navigating away to the edit form
-* 	ON A SEPARATE case, create a contact list, display it OR delete any contact from the display panel 
+The technologies used for the project are:
 
-
-The tecnologies used for the project are:
-
-
-
-* Javascript, React (numerous packages), feathers-express-with-authentication  (numerous packages)
-* Functional and class React Components are used 
+* Javascript, React (numerous packages), socket-io, feathers-express-with-authentication  (numerous packages)
+* A mix of Functional and class React Components are used 
 * HTML5
 * Flexbox, tailwind  CSS
 * semantic-ui Menu 
@@ -82,21 +69,16 @@ The tecnologies used for the project are:
 Ideas for future improvement
 ============================
 
--	Improve on the aesthetics of display on the home page 	
--	Incorporate tabs to display the COMPLETED, ACTIVE, ALL todo items   
-	 
+-	Improve on adding notifications during sign-in and login  	
+-	Migrate to database management systems (SQL vs NON-SQL used here) that are more query friendly   
+-   I would improve by allowing users to delete their questions or answers
 
 
 
 User Stories
 ============
 
--   As a user, I would like to be able to separately display COMPLETED, ACTIVE AND ALL todos.     
-
--   As a user I would like to see the app hosted on heroku      
-
-- 	As a user, I would like to have all permanently deleted records to be preserved in another storage (for purposes of history) 
-
--   Lastly, as a user, I would like to compliance with mobile first design - adapt to screen size changes without losing visibility
+-   As a user, I would like to be able to delete my questions or answers.  
+-   As a user I would like to see the app hosted on heroku - Hosting compilation was successful but unfortunately my Mlab free account was refusing connection    
     
  
