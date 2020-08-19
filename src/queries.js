@@ -47,7 +47,7 @@ const  getAnswers = async() => {
 ).sort( { score: { $meta: 'textScore' } } )
 }   
 
-module.exports = {
+export default {
     getUsers,
     getQuestions,
     getAnswers,
