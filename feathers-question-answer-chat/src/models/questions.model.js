@@ -10,12 +10,14 @@ module.exports = function (app) {
   const schema = new Schema({
     text: { type: String, required: true },
     category: { type: String, required: true },
-	  userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},  
-	  answers: [{ type: String, required: true }]
+	userId: {type: Schema.Types.ObjectId, ref: 'users', required: true},  
+	answers: [{ type: String, required: false}]
   }, {
     timestamps: true
   });
 
+  
+  
   // This is necessary to avoid model compilation errors in watch mode
   // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
   if (mongooseClient.modelNames().includes(modelName)) {
